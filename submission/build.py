@@ -17,8 +17,9 @@ APP = 'file-organizer'
 IDENTITY = dict(name='Lee Li', filename_name='Lee-Li', uid='006997204', appName=APP)
 DEMO = ROOT / 'demo/workspaces/file-organizer-d4da8a10'
 RUN = DEMO / 'after/.organizer/runs/run_c058abaea9d34acb'
-if not DEMO.exists():
-    DEMO = ROOT / 'traces/historical/2026-10-29-demo'
+PUBLIC_DEMO = ROOT / 'traces/historical/2026-10-29-demo'
+if PUBLIC_DEMO.exists():
+    DEMO = PUBLIC_DEMO
     RUN = DEMO / 'run'
 SUFFIXES = {'.py', '.md', '.swift', '.js', '.css', '.html', '.json'}
 
@@ -129,6 +130,8 @@ for suite in (root / 'tests/file_organizer', root / 'tests'):
 ''')
     evidence = src / 'evidence/observed-demo'
     provenance = dict(run_id=RUN.name, historical=True, transformation='Replace absolute project root with $PROJECT_ROOT in exported evidence only; no events omitted.', files={})
+    if (DEMO / 'provenance.json').exists():
+        provenance['upstream_provenance'] = json.loads((DEMO / 'provenance.json').read_text())
     selected = [(RUN / name, Path('run') / name) for name in (
         'trace.jsonl', 'manifest.json', 'demo_settings.json', 'demo_summary.json', 'source_snapshot.json')]
     selected.append((DEMO / 'summary.json', Path('summary.json')))
