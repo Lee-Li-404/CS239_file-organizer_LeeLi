@@ -1,0 +1,40 @@
+{
+  "run_id": "run_9e09394c602d4338",
+  "workspace": "/private$WORKSPACE",
+  "requesting_user": "alice",
+  "model": "gpt-5.6-luna",
+  "real_llm": true,
+  "phase": 1,
+  "policy_enforcement": "prompt_only_phase1",
+  "status": "preview_ready",
+  "plans": [
+    {
+      "summary": "Preview organization proposal for Alice's research notes; no execution.",
+      "operations": [
+        {
+          "source": "users/alice/document.txt",
+          "destination": "users/alice/Papers/document.txt",
+          "reason": "Classified as Papers based on anonymized excerpt describing research notes.",
+          "evidence_refs": [
+            "anon_07af83e1e4e943549aab7cbcec96e0fa",
+            "E0025",
+            "E0029",
+            "E0041"
+          ],
+          "operation_id": "op_001",
+          "source_sha256": "acacedc9e48bb09d39d05bdb016f4d0ed644bdc040e55289a458d330546b5e15",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        }
+      ],
+      "plan_id": "plan_cfc0d1c6020e",
+      "version": 1,
+      "digest": "c0c6c8fc8068c09f6ff21698cd8eb4e0ba8b588ceede7f66799c9e6f70ef1827",
+      "confirmed": false
+    }
+  ],
+  "moves": [],
+  "model_calls": 18,
+  "max_calls": 80,
+  "max_steps_per_activation": 20
+}

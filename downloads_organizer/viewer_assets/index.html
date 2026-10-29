@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Trace Studio · File Organizer</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="network.css">
+  <link rel="stylesheet" href="chat.css">
+  <script defer src="trace-core.js"></script>
+  <script defer src="network.js"></script>
+  <script defer src="chat.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#"><span class="brand-mark">↗</span><span>Trace Studio<small>FILE ORGANIZER</small></span></a>
+    <div class="workspace-label">WORKSPACE <span class="local-dot"></span></div>
+    <nav aria-label="Trace views">
+      <button class="nav-item active" data-view="chat"><span>☷</span> Agent chats</button>
+      <button class="nav-item" data-view="network"><span>◎</span> Agent network</button>
+      <button class="nav-item" data-view="flow"><span>⌘</span> Tools &amp; messages</button>
+      <button class="nav-item" data-view="messages"><span>⇄</span> Agent messages <b id="nav-message-count">0</b></button>
+      <details class="advanced-nav"><summary>Advanced details</summary><button class="nav-item" data-view="timeline"><span>◷</span> Full event log</button><button class="nav-item" data-view="plans"><span>▤</span> Plans &amp; files</button><button class="nav-item" data-view="usage"><span>▥</span> Token usage</button></details>
+    </nav>
+    <div class="sidebar-section"><div class="workspace-label">PARTICIPANTS</div><div id="participants"></div></div>
+    <div class="sidebar-footer"><span class="local-dot"></span> Local, read-only replay<p>Trace contents stay in this browser.<br>No model calls. No file operations.</p><button id="demo-button">Load synthetic demo ↗</button></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <strong>Trace explorer</strong></div><div class="import-actions"><button id="paste-button" class="button subtle">Paste JSONL</button><button id="folder-button" class="button subtle">Open run folder</button><button id="import-button" class="button primary">＋ Import files</button></div></header>
+    <div class="workspace-body">
+      <main>
+        <div class="page-heading"><div><h1>Agent communication</h1><p>See how agents coordinate, message by message.</p></div><span class="badge local-badge">● Read-only replay</span></div>
+        <div id="notice" class="notice" hidden></div>
+        <section class="run-bar" aria-label="Run selection"><div><label for="run-select">INSPECT RUN</label><select id="run-select" aria-label="Select run"></select></div><div id="run-badges" class="run-badges"></div></section>
+        <div id="summary" class="stats-grid"></div>
+        <div id="token-strip" class="token-strip"></div>
+        <details id="warning-box" class="warning-box" hidden><summary id="warning-summary"></summary><div id="warnings"></div></details>
+        <section class="panel">
+          <div class="panel-heading"><div><h2 id="view-title">Tools &amp; messages</h2><p id="view-description">Follow what each agent does and says.</p></div><span id="event-count" class="badge"></span></div>
+          <div class="filters"><div class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="Search events, filenames, messages…" aria-label="Search events"></div><select id="actor-filter" aria-label="Filter by participant"><option value="">All participants</option></select><select id="kind-filter" aria-label="Filter by event category"><option value="">All categories</option><option value="messages">Messages</option><option value="tools">Tools</option><option value="model">Model</option><option value="plans">Plans</option><option value="files">Files</option><option value="run">Run &amp; recovery</option><option value="policy">Policy decisions</option><option value="other">Other</option></select></div>
+          <div class="playback"><button id="previous" class="icon-button" aria-label="Previous event">‹</button><button id="play" class="play-button">▶ Replay</button><button id="next" class="icon-button" aria-label="Next event">›</button><input id="seek" type="range" min="0" max="0" value="0" aria-label="Replay position"><span id="position">0 / 0</span><button id="show-all" class="text-button">Show full run</button><select id="speed" aria-label="Replay speed"><option value="1200">Slow</option><option value="500" selected>Normal</option><option value="150">Fast</option></select></div>
+          <div id="view-options" class="view-options"></div>
+          <div id="view-content"></div>
+        </section>
+        <footer class="main-footer">Viewing a saved run. Nothing is executed during replay.</footer>
+      </main>
+      <aside id="inspector" class="inspector" aria-label="Event inspector"><div class="inspector-heading"><div><div class="eyebrow">EVENT INSPECTOR</div><h2>Inspect a step</h2></div><button id="close-inspector" class="icon-button" aria-label="Close inspector">×</button></div><div id="inspector-content"><div class="empty-inspector"><span>⌕</span><h3>Follow the evidence</h3><p>Select an event or message to see its exact inputs, outputs, and related records.</p></div></div></aside>
+    </div>
+  </div>
+  <input id="file-input" type="file" accept=".jsonl,.json" multiple hidden>
+  <input id="folder-input" type="file" webkitdirectory multiple hidden>
+  <dialog id="paste-dialog"><form method="dialog"><div class="paste-heading"><h2>Import a trace</h2><button class="icon-button" value="cancel" aria-label="Cancel paste import">×</button></div><p>Paste JSONL records below. They stay local and are never executed.</p><label for="paste-name">Source label</label><input id="paste-name" value="pasted-trace.jsonl"><label for="paste-text">JSONL trace</label><textarea id="paste-text" spellcheck="false" placeholder="One JSON event per line"></textarea><div class="paste-actions"><button class="button subtle" value="cancel">Cancel</button><button id="paste-load" class="button primary" type="button">Load pasted trace</button></div></form></dialog>
+  <div id="drop-overlay" hidden><div>Drop trace files or run folders<p>JSONL traces and optional JSON sidecars · local only</p></div></div>
+  <div id="toast" role="status" hidden></div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "Lee Li",
+  "filename_name": "Lee-Li",
+  "uid": "006997204",
+  "appName": "file-organizer",
+  "archives": [
+    {
+      "filename": "Lee-Li-file-organizer-006997204-requirements.tar.gz",
+      "sha256": "d0ee59eab08398524b5d234a959a46230ea05f0eb81adcf0076b70d0974b8a3f",
+      "bytes": 8569
+    },
+    {
+      "filename": "Lee-Li-file-organizer-006997204-whole.tar.gz",
+      "sha256": "7c180c7f17d325144a0c98637f2d851e3d83d52cc0f8764565306c6e301b1551",
+      "bytes": 747200
+    }
+  ],
+  "configured_api_keys_absent": true
+}

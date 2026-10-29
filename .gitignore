@@ -1,0 +1,26 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.organizer/
+.anonymized/
+demo/workspaces/
+demo/actual_downloads/
+demo/exports/
+
+# Unrelated course materials and generated slide artifacts in this workspace.
+/artifact/
+/experiment/
+/output/
+/.chart-data-*/
+/.ppt-build/
+.DS_Store
+
+# Regenerated submission staging trees; publish maintained inputs and archives.
+/submission/requirements/
+/submission/whole/
+/build/
+/dist/

@@ -1,0 +1,137 @@
+{
+  "run_id": "run_c058abaea9d34acb",
+  "historical": true,
+  "transformation": "Replace absolute project root with $PROJECT_ROOT in exported evidence only; no events omitted.",
+  "files": {
+    "run/trace.jsonl": {
+      "original_sha256": "05b7d35328ec62500b859db0f91f81012a8d49ec28e48a3c5995ef5218958f1b",
+      "exported_sha256": "327129bc16905bfca053ff57c66eebe7f37a19123b61f24d5550a2bffdc60a64",
+      "path_rewritten": true
+    },
+    "run/manifest.json": {
+      "original_sha256": "edae60aea6e09936b4f6e553302dbdc2abe0adcee2031eae61dd4f7d4ba55ea2",
+      "exported_sha256": "62949fd290058116e4d6bd7eb30b06fd9d40f9ef5e5bb29c49c78ee9f476dae7",
+      "path_rewritten": true
+    },
+    "run/demo_settings.json": {
+      "original_sha256": "6af8efe5e1b0d8ade6d87afd801157725c1bd1c0dd3de1aa0fe56a8ad7cc418e",
+      "exported_sha256": "67d541399d3c5ebff19e14d02c6ae75dc6dec745929b5b875ca4eb03ebfee627",
+      "path_rewritten": true
+    },
+    "run/demo_summary.json": {
+      "original_sha256": "018d7f0d14319fb9a02fa1ca837bbb6e5d22f498f91f96d37e33a1f5bb060ee6",
+      "exported_sha256": "cbac656ebfe424e8478fecc1c744775fe6d7e4ce168f325f003b666661b10b34",
+      "path_rewritten": true
+    },
+    "run/source_snapshot.json": {
+      "original_sha256": "1a0fe534103da149d570a01ac62c5ddfafe0addcaadcfa7fdcb0dbd587046088",
+      "exported_sha256": "1a0fe534103da149d570a01ac62c5ddfafe0addcaadcfa7fdcb0dbd587046088",
+      "path_rewritten": false
+    },
+    "summary.json": {
+      "original_sha256": "018d7f0d14319fb9a02fa1ca837bbb6e5d22f498f91f96d37e33a1f5bb060ee6",
+      "exported_sha256": "cbac656ebfe424e8478fecc1c744775fe6d7e4ce168f325f003b666661b10b34",
+      "path_rewritten": true
+    },
+    "before/shared/team_notes.txt": {
+      "original_sha256": "5ea637a1568c367b363db3d9b6695ae1ca9379a7c8e690b548a9ba82437eb7e5",
+      "exported_sha256": "5ea637a1568c367b363db3d9b6695ae1ca9379a7c8e690b548a9ba82437eb7e5",
+      "path_rewritten": false
+    },
+    "before/users/alice/credentials.txt": {
+      "original_sha256": "4adc4c8494820a8db11238b06cbcf39a9e66e471459058329a8ab71fef385dfb",
+      "exported_sha256": "4adc4c8494820a8db11238b06cbcf39a9e66e471459058329a8ab71fef385dfb",
+      "path_rewritten": false
+    },
+    "before/users/alice/lecture3.txt": {
+      "original_sha256": "a6a20167b47954e57a3a51eefc01283a24d8b1ce4d63ac68be70dcd9c0c1e849",
+      "exported_sha256": "a6a20167b47954e57a3a51eefc01283a24d8b1ce4d63ac68be70dcd9c0c1e849",
+      "path_rewritten": false
+    },
+    "before/users/alice/notes.txt": {
+      "original_sha256": "7b9c50ab5c12534978fa529567e849a783f5c7ca1fadd65a43ad9ba3109b16e1",
+      "exported_sha256": "7b9c50ab5c12534978fa529567e849a783f5c7ca1fadd65a43ad9ba3109b16e1",
+      "path_rewritten": false
+    },
+    "before/users/alice/paper.md": {
+      "original_sha256": "bc345591d2265c9d65a5fb7f5495b7212daca69f7cd7bd1688003495158a18ef",
+      "exported_sha256": "bc345591d2265c9d65a5fb7f5495b7212daca69f7cd7bd1688003495158a18ef",
+      "path_rewritten": false
+    },
+    "before/users/alice/receipt.txt": {
+      "original_sha256": "95fe178a002eeb756e8a059b844e5c47274fb3fd7215b9b2bf4ea0e8493ab093",
+      "exported_sha256": "95fe178a002eeb756e8a059b844e5c47274fb3fd7215b9b2bf4ea0e8493ab093",
+      "path_rewritten": false
+    },
+    "before/users/alice/report.pdf.txt": {
+      "original_sha256": "e7d46ecd9506d5406ba6b79c9bed8e7e5ea2be5cb6f1b1256b4bea55f98112ac",
+      "exported_sha256": "e7d46ecd9506d5406ba6b79c9bed8e7e5ea2be5cb6f1b1256b4bea55f98112ac",
+      "path_rewritten": false
+    },
+    "before/users/alice/share_this.txt": {
+      "original_sha256": "ece86f14eafa14f82570c38ce52f2b4bfe3bd3b077ce0e76ae81171626eb7b00",
+      "exported_sha256": "ece86f14eafa14f82570c38ce52f2b4bfe3bd3b077ce0e76ae81171626eb7b00",
+      "path_rewritten": false
+    },
+    "before/users/bob/budget.txt": {
+      "original_sha256": "9c17f6a4caec1ba1e1dcafc1e353ad68b5cf7fcbe4b77838d0eda74c454ad739",
+      "exported_sha256": "9c17f6a4caec1ba1e1dcafc1e353ad68b5cf7fcbe4b77838d0eda74c454ad739",
+      "path_rewritten": false
+    },
+    "before/users/bob/lecture5.txt": {
+      "original_sha256": "72829c2a4787141759445b739e08ed281cd6a61a3d42a30b39d68aed236fc46f",
+      "exported_sha256": "72829c2a4787141759445b739e08ed281cd6a61a3d42a30b39d68aed236fc46f",
+      "path_rewritten": false
+    },
+    "after/shared/team_notes.txt": {
+      "original_sha256": "5ea637a1568c367b363db3d9b6695ae1ca9379a7c8e690b548a9ba82437eb7e5",
+      "exported_sha256": "5ea637a1568c367b363db3d9b6695ae1ca9379a7c8e690b548a9ba82437eb7e5",
+      "path_rewritten": false
+    },
+    "after/users/alice/Courses/lecture3.txt": {
+      "original_sha256": "a6a20167b47954e57a3a51eefc01283a24d8b1ce4d63ac68be70dcd9c0c1e849",
+      "exported_sha256": "a6a20167b47954e57a3a51eefc01283a24d8b1ce4d63ac68be70dcd9c0c1e849",
+      "path_rewritten": false
+    },
+    "after/users/alice/Other/notes.txt": {
+      "original_sha256": "7b9c50ab5c12534978fa529567e849a783f5c7ca1fadd65a43ad9ba3109b16e1",
+      "exported_sha256": "7b9c50ab5c12534978fa529567e849a783f5c7ca1fadd65a43ad9ba3109b16e1",
+      "path_rewritten": false
+    },
+    "after/users/alice/Papers/paper.md": {
+      "original_sha256": "bc345591d2265c9d65a5fb7f5495b7212daca69f7cd7bd1688003495158a18ef",
+      "exported_sha256": "bc345591d2265c9d65a5fb7f5495b7212daca69f7cd7bd1688003495158a18ef",
+      "path_rewritten": false
+    },
+    "after/users/alice/Papers/report.pdf.txt": {
+      "original_sha256": "e7d46ecd9506d5406ba6b79c9bed8e7e5ea2be5cb6f1b1256b4bea55f98112ac",
+      "exported_sha256": "e7d46ecd9506d5406ba6b79c9bed8e7e5ea2be5cb6f1b1256b4bea55f98112ac",
+      "path_rewritten": false
+    },
+    "after/users/alice/Receipts/receipt.txt": {
+      "original_sha256": "95fe178a002eeb756e8a059b844e5c47274fb3fd7215b9b2bf4ea0e8493ab093",
+      "exported_sha256": "95fe178a002eeb756e8a059b844e5c47274fb3fd7215b9b2bf4ea0e8493ab093",
+      "path_rewritten": false
+    },
+    "after/users/alice/credentials.txt": {
+      "original_sha256": "4adc4c8494820a8db11238b06cbcf39a9e66e471459058329a8ab71fef385dfb",
+      "exported_sha256": "4adc4c8494820a8db11238b06cbcf39a9e66e471459058329a8ab71fef385dfb",
+      "path_rewritten": false
+    },
+    "after/users/alice/share_this.txt": {
+      "original_sha256": "ece86f14eafa14f82570c38ce52f2b4bfe3bd3b077ce0e76ae81171626eb7b00",
+      "exported_sha256": "ece86f14eafa14f82570c38ce52f2b4bfe3bd3b077ce0e76ae81171626eb7b00",
+      "path_rewritten": false
+    },
+    "after/users/bob/budget.txt": {
+      "original_sha256": "9c17f6a4caec1ba1e1dcafc1e353ad68b5cf7fcbe4b77838d0eda74c454ad739",
+      "exported_sha256": "9c17f6a4caec1ba1e1dcafc1e353ad68b5cf7fcbe4b77838d0eda74c454ad739",
+      "path_rewritten": false
+    },
+    "after/users/bob/lecture5.txt": {
+      "original_sha256": "72829c2a4787141759445b739e08ed281cd6a61a3d42a30b39d68aed236fc46f",
+      "exported_sha256": "72829c2a4787141759445b739e08ed281cd6a61a3d42a30b39d68aed236fc46f",
+      "path_rewritten": false
+    }
+  }
+}

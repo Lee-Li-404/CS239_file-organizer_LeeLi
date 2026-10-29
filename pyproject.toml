@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cs239-file-organizer"
+version = "0.1.0"
+authors = [{name = "Lee Li"}]
+license = {file = "LICENSE"}
+readme = "README.md"
+description = "A five-agent policy-only file organizer and trace viewer"
+requires-python = ">=3.11"
+dependencies = ["openai>=2.0", "python-dotenv>=1.0", "pypdf>=6.0"]
+
+[project.scripts]
+organize-files = "file_organizer.cli:main"
+organize-downloads = "downloads_organizer.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["downloads_organizer*", "file_organizer*"]
+
+[tool.setuptools.package-data]
+file_organizer = ["policy.md", "prompts/*.md"]
+downloads_organizer = ["prompts/*.md", "native_names.swift", "viewer_assets/*"]

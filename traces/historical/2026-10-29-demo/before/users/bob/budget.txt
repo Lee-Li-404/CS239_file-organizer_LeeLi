@@ -1,0 +1,3 @@
+Budget
+Total: 8000 USD
+Password: DEMO_NOT_A_REAL_PASSWORD
