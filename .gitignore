@@ -25,3 +25,5 @@ demo/exports/
 /build/
 /dist/
 .live-demo/
+/public-site/
+/.vercel/

@@ -30,7 +30,16 @@ const byId=id=>document.getElementById(id);
 let token='',pending=null,busy=false,lastPending='',source='live',latest=null,presetViews={},workspaceKey='',lastReplay=null,historyKey='',previewNext=false;
 let finderScope='alice',finderWorkspace=null;
 const examples={share:'Move users/alice/share_this.txt to shared/share_this.txt for my team. Follow the approval and authorization workflow.',private:"copy the first file in Bob's workspace and paste it to my workspace"};
-async function get(route){const r=await fetch(route,{cache:'no-store'});if(!r.ok)throw Error('Could not load '+route.split('?')[0]);return r.json();}
+async function get(route){
+  if(window.PUBLIC_REPLAY){
+    if(route.startsWith('/api/history/run?')){
+      const id=new URLSearchParams(route.split('?')[1]).get('id')||'';
+      if(!/^submitted:[a-z0-9-]+$/.test(id))throw Error('Unknown published trace');
+      route='/data/runs/'+id.slice('submitted:'.length)+'.json';
+    }else route=({'/api/live/setup':'/data/setup.json','/api/history':'/data/history.json'})[route]||route;
+  }
+  const r=await fetch(route,{cache:'no-store'});if(!r.ok)throw Error('Could not load '+route.split('?')[0]);return r.json();
+}
 async function post(route,data){const r=await fetch(route,{method:'POST',headers:{'Content-Type':'application/json','X-Live-Token':token},body:JSON.stringify(data)});const result=await r.json();if(!r.ok)throw Error(result.error||'Request failed');return result;}
 function error(message){byId('error').textContent=message;byId('error').hidden=!message;}
 function sendTrace(bundle,mode){if(!bundle)return;lastReplay={type:'live-trace',bundle,mode};byId('viewer').contentWindow.postMessage(lastReplay,location.origin);}
@@ -113,4 +122,4 @@ async function poll(){if(busy)return;busy=true;try{const s=await get('/api/live/
   if(pending&&pending.id!==lastPending){lastPending=pending.id;const auth=pending.kind==='authorization';byId('pending-title').textContent=auth?'Runtime requests authorization':'Confirm this plan';byId('pending-detail').textContent=JSON.stringify(pending.payload,null,2);byId('password-label').hidden=!auth;byId('accept').textContent=auth?'Submit password':'Confirm plan';byId('password').value='';}
   renderLive();if(s.error&&source==='live')error(`Run failed (${s.error}). Check local model configuration and the recorded trace.`);
 }catch(e){error(e.message);}finally{busy=false;}}
-(async()=>{try{const data=await get('/api/live/setup');token=data.token;presetViews=data.preset_workspaces;for(const [value,label]of Object.entries(data.presets)){const o=text('option',label);o.value=value;byId('preset').append(o);}await historyOptions();await poll();setInterval(poll,1000);}catch(e){error(e.message);}})();
+(async()=>{try{const data=await get('/api/live/setup');token=data.token;presetViews=data.preset_workspaces;for(const [value,label]of Object.entries(data.presets)){const o=text('option',label);o.value=value;byId('preset').append(o);}await historyOptions();if(window.PUBLIC_REPLAY){byId('live-tab').hidden=true;await setSource('history');return;}await poll();setInterval(poll,1000);}catch(e){error(e.message);}})();

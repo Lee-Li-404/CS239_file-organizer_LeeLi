@@ -98,6 +98,21 @@ is the installed entry point.
 
 ## Inspect agent communication
 
+### Vercel hosting
+
+The repository includes `vercel.json` for a static public viewer of the five
+published traces. Import this GitHub repository into Vercel using the repository
+root. The configured build command is `python3 scripts/build_public_site.py`,
+and the output directory is `public-site`. The build needs no API key or external
+Python dependencies. The exported site includes the chat/trace inspector,
+Finder-style workspace, and adjustable panel divider.
+
+This hosted version replays saved traces only. Live model execution remains in
+the local app below; deploying it requires a separate persistent, isolated backend
+and durable session storage. Private local demo sessions are never exported.
+
+### Local demo and replay
+
 For an interactive live demo as Alice, with a fresh synthetic workspace per run:
 
 ```sh
