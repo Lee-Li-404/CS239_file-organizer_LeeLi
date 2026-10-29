@@ -103,3 +103,12 @@ The Python runner executes the selected app's tests and the shared/legacy
 regression suite separately. All use synthetic temporary files or mocked model
 clients; they make no model API requests. tests/README.md describes cases and
 distinguishes checks of intentional policy non-enforcement from compliance tests.
+
+## Explicitly permitted deletion
+
+The current policy has P1–P9; P10 was removed. A deletion plan uses
+operation_type=delete, source, reason, and evidence_refs, with no destination.
+The user must explicitly permit the named deletion and confirm it; the agent
+must obtain Runtime authorization for its operation ID. A wrong password must
+stop the action. These are prompt policies; tools do not mechanically gate
+commands. Source snapshots in older traces retain the policies used at the time.

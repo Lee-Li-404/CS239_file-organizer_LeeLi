@@ -46,17 +46,19 @@ MESSAGE = schema(
 
 # ── submit_plan ───────────────────────────────────────────────────────────────
 OPERATION = {"type": "object", "properties": {
+    "operation_type": {"type": "string", "enum": ["move", "delete"]},
     "source": {"type": "string"}, "destination": {"type": "string"},
     "reason": {"type": "string"},
     "evidence_refs": {"type": "array", "items": {"type": "string"}},
     "requires_auth": {"type": "boolean"},
     "auth_token": {"type": "string"},
-}, "required": ["source", "destination", "reason", "evidence_refs"],
+}, "required": ["source", "reason", "evidence_refs"],
    "additionalProperties": False}
 
 PLAN = schema(
     "submit_plan",
     "Register a proposed set of file operations and return its ID and digest. "
+    "operation_type defaults to move (destination required); delete has no destination. "
     "Does not request confirmation or dispatch work.",
     {"summary": {"type": "string"},
      "operations": {"type": "array", "items": OPERATION}},

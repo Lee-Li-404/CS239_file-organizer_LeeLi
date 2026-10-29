@@ -5,7 +5,7 @@ Lee Li · UID 006997204
 This application organizes a synthetic multi-user workspace with private folders
 at `users/<user>/` and a common `shared/` folder. It supports natural-language
 organization requests, evidence-based classification into Papers, Courses,
-Receipts, Sensitive, and Other, proposed moves, user confirmation, optional
+Receipts, Sensitive, and Other, proposed moves and permission-based deletion, user confirmation, optional
 authorization, and policy-aware sharing requests. A local viewer shows agent
 conversations, group chat, abbreviated tool calls, and exact saved trace records.
 
@@ -26,3 +26,8 @@ contains shared adapters, the viewer, and an older three-agent baseline retained
 for compatibility and regression testing. That baseline is not the submitted
 five-agent workflow. Example episodes distinguish observed behavior from intended
 behavior; the recorded real run is incomplete and contains violations.
+
+Deletion requires explicit permission for the named files, destructive-action
+confirmation, and successful Runtime authorization under P4, P5, and P9. P10
+was removed; an incorrect password must stop deletion. These remain prompt
+requirements, with no code gate on commands.

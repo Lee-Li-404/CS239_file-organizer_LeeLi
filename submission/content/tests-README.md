@@ -16,6 +16,7 @@ separately to avoid mixing selected-app and older-baseline assumptions.
 | Suite | Cases and expected result |
 | --- | --- |
 | file_organizer/test_policy_only.py | All roles receive identical capabilities and the actual policy; inventory and Arbiter messages remain unfiltered; model judgments are not overridden; confirmation is explicit; disposable commands and raw uploads can bypass business policies; outside/symlink paths are not policy-gated. These are deliberate non-enforcement tests. |
+| file_organizer/test_delete_plans.py | Deletion plans need no destination, pending/completed observations follow source absence, and legacy moves still require a destination. No policy gates are installed. |
 | file_organizer/test_authorization.py | Correct demo credentials issue operation-bound tokens; wrong/empty credentials fail once; token membership is checked; raw passwords are absent from service trace records; preview does not mechanically block a requested credential service. |
 | test_tool_protocol.py | Native and JSON-envelope calls, malformed or duplicate IDs, argument validation, compatibility repairs, refusal handling, and no accidental execution of file/prose content. |
 | test_models.py | Provider/key configuration, tool-call protocol, pacing for non-OpenAI providers, OpenAI absence of local pacing, and mocked SDK retry behavior. No network is used. |

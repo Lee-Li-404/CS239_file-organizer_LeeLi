@@ -60,7 +60,9 @@ Use a new or empty fixture destination. Preview instructs agents to gather
 information and propose a plan. Execution mode supplies an interactive confirmation
 callback: type the displayed `plan_id@version` to accept. Optional authorization
 uses the synthetic demo password `correct`. These are explicit tool services;
-commands are not mechanically gated on them. `--instruction`, `--env-file`, and
+commands are not mechanically gated on them. Deletion is permitted by policy only
+for specifically approved files after confirmation and successful Runtime password
+authorization; a wrong password requires the agents to stop. `--instruction`, `--env-file`, and
 `--max-calls` customize the request, configuration, and budget. `organize-files`
 is the installed entry point.
 

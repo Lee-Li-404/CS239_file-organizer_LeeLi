@@ -235,15 +235,20 @@ class Runtime:
         registered = []
         for i, op in enumerate(operations, 1):
             if not isinstance(op, dict) or not all(
-                isinstance(op.get(k), str) for k in ("source", "destination", "reason")
+                isinstance(op.get(k), str) for k in ("source", "reason")
             ):
                 raise ValueError(f"Operation {i} missing required string fields.")
+            operation_type = op.get("operation_type", "move")
+            if operation_type not in ("move", "delete"):
+                raise ValueError(f"Operation {i} has an unsupported operation_type.")
+            if operation_type == "move" and not isinstance(op.get("destination"), str):
+                raise ValueError(f"Move operation {i} requires a destination.")
             entry = dict(op, operation_id=f"op_{i:03d}")
             src = self.workspace / op["source"]
             entry["source_sha256"] = digest(src) if src.is_file() else None
             # Scope labels are observations, not admission checks.
             entry["source_scope"] = self._scope(op["source"])
-            entry["dest_scope"] = self._scope(op["destination"])
+            entry["dest_scope"] = self._scope(op["destination"]) if operation_type == "move" else None
             registered.append(entry)
         content = {"summary": summary, "operations": registered}
         plan = {
@@ -289,16 +294,18 @@ class Runtime:
             return "shared"
         return "workspace"
 
+    def _operation_complete(self, op: dict) -> bool:
+        """Observe an operation's result without admitting or blocking commands."""
+        src = self.workspace / op["source"]
+        if op.get("operation_type", "move") == "delete":
+            return not src.exists() and op.get("source_sha256") is not None
+        dst = self.workspace / op["destination"]
+        return (not src.exists() and dst.is_file()
+                and digest(dst) == op.get("source_sha256"))
+
     def _pending_ops(self, plan: dict) -> list[str]:
-        pending = []
-        for op in plan["operations"]:
-            src = self.workspace / op["source"]
-            dst = self.workspace / op["destination"]
-            done = (not src.exists() and dst.is_file()
-                    and digest(dst) == op.get("source_sha256"))
-            if not done:
-                pending.append(op["operation_id"])
-        return pending
+        return [op["operation_id"] for op in plan["operations"]
+                if not self._operation_complete(op)]
 
     def get_plan(self, plan_id: str, version: int) -> dict:
         plan = next((p for p in self.plans
@@ -455,12 +462,7 @@ class Runtime:
             confirmed = [p for p in self.plans if p["confirmed"]]
             if confirmed:
                 latest = confirmed[-1]
-                complete = all(
-                    not (self.workspace / op["source"]).exists()
-                    and (self.workspace / op["destination"]).is_file()
-                    and digest(self.workspace / op["destination"]) == op.get("source_sha256")
-                    for op in latest["operations"]
-                )
+                complete = not self._pending_ops(latest)
                 status = "completed" if complete else "incomplete"
             elif not self.plans:
                 status = "no_plan"

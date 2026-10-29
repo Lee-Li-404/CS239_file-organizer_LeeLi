@@ -1,0 +1,10 @@
+{
+  "agent_requested": false,
+  "model_calls": 0,
+  "result": {
+    "authorized": false,
+    "reason": "incorrect credential — operation not authorized"
+  },
+  "tokens_issued": 0,
+  "wrong_credential_absent_from_trace": true
+}

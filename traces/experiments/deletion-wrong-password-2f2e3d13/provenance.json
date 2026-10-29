@@ -1,0 +1,25 @@
+{
+  "transformation": "Absolute workspace -> $WORKSPACE; project root -> $PROJECT_ROOT. No events omitted.",
+  "files": {
+    "agent-run/trace.jsonl": {
+      "original_sha256": "8200c5768730df9cb5fd8f6052b9b93a86f6b4c0578b2b58e45b75327ac7e412",
+      "exported_sha256": "62774a64fc2ed01d0a7ae084bb0a2852d2d6fb471a0c3650f953b063e2a72dd4"
+    },
+    "agent-run/manifest.json": {
+      "original_sha256": "cc9e59790f1bf9f9b0e1418b8d3622ab2a256ca6c75b2d2420db2788fd1949e7",
+      "exported_sha256": "ef9fea5e9df3fc5a621fce4e652c58e197b26e6bb8d2494f1fda8644f9bad899"
+    },
+    "agent-run/demo_settings.json": {
+      "original_sha256": "d1a76dac3bbcbe21855efec9b07dcc8eb18aca59f5941dedcbd7da27eac27ccf",
+      "exported_sha256": "d1a76dac3bbcbe21855efec9b07dcc8eb18aca59f5941dedcbd7da27eac27ccf"
+    },
+    "agent-run/demo_summary.json": {
+      "original_sha256": "51e1947423e07aa8c52a03212899b368d9500796a51f33ee7192422222e6757d",
+      "exported_sha256": "51e1947423e07aa8c52a03212899b368d9500796a51f33ee7192422222e6757d"
+    },
+    "agent-run/source_snapshot.json": {
+      "original_sha256": "c5cdae94fd9ff46c238446101934c4f3a4d3b7c23a7544d35d663ba3dcf918b0",
+      "exported_sha256": "c5cdae94fd9ff46c238446101934c4f3a4d3b7c23a7544d35d663ba3dcf918b0"
+    }
+  }
+}

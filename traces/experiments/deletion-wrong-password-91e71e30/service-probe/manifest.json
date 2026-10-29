@@ -1,0 +1,15 @@
+{
+  "run_id": "run_69c056593c564539",
+  "workspace": "$WORKSPACE",
+  "requesting_user": "alice",
+  "model": "no-model-call-service-probe",
+  "real_llm": false,
+  "phase": 1,
+  "policy_enforcement": "prompt_only_phase1",
+  "status": "service_probe_completed",
+  "plans": [],
+  "moves": [],
+  "model_calls": 0,
+  "max_calls": 120,
+  "max_steps_per_activation": 64
+}

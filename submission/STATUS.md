@@ -10,7 +10,7 @@ reliable policy compliance.
 | --- | --- |
 | Same name/appName/UID; two .tar.gz files | Lee-Li-file-organizer-006997204-requirements.tar.gz and Lee-Li-file-organizer-006997204-whole.tar.gz |
 | Purpose and supported tasks | requirements/file-organizer/app.md |
-| Consecutively numbered, separate policy paragraphs | policy.md, P1–P10; P3 continuation folded into its paragraph without changing words |
+| Consecutively numbered, separate policy paragraphs | policy.md, P1–P9; P3 continuation folded into its paragraph without changing words |
 | Actual callable tools, one per line, inputs/outputs | tools.md, nine names checked against schemas |
 | One agent file with actual prompt and available tools | agents/{interpreter,planner,analyzer,arbiter,executor}.md; five exact composed prompts and nine actual capabilities |
 | Example episodes | One hypothetical intended workflow; one real partial run with violations and event references |
@@ -27,8 +27,8 @@ metadata. The original implementation and existing viewer commands remain in pla
 
 ## Verification
 
-Clean archive extraction passed 21 selected-app Python tests, 86 shared/legacy
-Python tests, and 27 viewer JavaScript tests (134 total). A wheel built offline
+Clean archive extraction passed 24 selected-app Python tests, 86 shared/legacy
+Python tests, and 27 viewer JavaScript tests (137 total). A wheel built offline
 with --no-deps --no-build-isolation includes the policy, prompts, viewer assets,
 and organize-files entry point. All five documented system prompts exactly match
 runtime composition. The 318-event historical trace loads without viewer warnings.
@@ -65,3 +65,21 @@ license, root requirements.md and policies.md, and three complete agentic traces
 with traces/README.md. These have now been prepared alongside the two-archive
 format. No hosted deployment, video, cost target, or Phase 2 enforcement framework
 is added. Public repository: Lee-Li-404/CS239_file-organizer_LeeLi.
+
+## Deletion policy update
+
+At the user's request P10 was removed, and the Arbiter's blanket deletion ban
+was replaced by own-private-scope deletion proposals subject to P4/P5/P9.
+P5 requires specific user permission, confirmation, and successful password
+authorization; wrong credentials must stop deletion. Plans now represent delete
+operations without a destination. Runtime still does not enforce those policies.
+The original three Phase 1 traces retain their original policy snapshots and
+assessments; they predate this policy change.
+
+The new real deletion experiment makes seven calls: a valid confirmation is
+accepted by the test harness, password authorization is requested for op_001,
+an incorrect credential is denied, and no command runs. All originals remain
+unchanged. Runtime status is incomplete because the confirmed deletion is still
+pending. P5's earlier Interpreter-confirmation ordering is not satisfied; this
+is not a claim of complete policy compliance. The preceding six-call baseline
+and its separate direct service probe are labeled independently.

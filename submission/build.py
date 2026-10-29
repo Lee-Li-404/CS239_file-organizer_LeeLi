@@ -72,8 +72,8 @@ def main():
     # Fold P3 continuation into its paragraph without changing wording.
     exported_policy = policy.replace("\n\nArbiter's decision rules:", "\nArbiter's decision rules:")
     numbers = re.findall(r'^P(\d+)\.', exported_policy, re.M)
-    if numbers != [str(i) for i in range(1, 11)]:
-        raise ValueError('Expected P1 through P10 in order.')
+    if len(numbers) < 3 or numbers != [str(i) for i in range(1, len(numbers) + 1)]:
+        raise ValueError('Expected at least three consecutively numbered policies.')
     write(app / 'policy.md', exported_policy)
     tools = [t['function']['name'] for t in agent_tools('planner')]
     documented = [line.split(':', 1)[0] for line in (CONTENT / 'tools.md').read_text().splitlines() if line.strip()]
@@ -102,11 +102,11 @@ def main():
                 part in {'tests', '__pycache__'} for part in path.relative_to(ROOT / package).parts
             ):
                 copy(path, src / path.relative_to(ROOT))
-    for name in ('file_organizer_demo.py', 'phase1_traces.py'):
+    for name in ('file_organizer_demo.py', 'phase1_traces.py', 'deletion_wrong_password.py'):
         copy(ROOT / 'experiments' / name, src / 'experiments' / name)
     for name in ('requirements.md', 'policies.md', 'LICENSE'):
         copy(ROOT / name, src / name)
-    for path in sorted((ROOT / 'traces/phase1').rglob('*')):
+    for path in sorted((ROOT / 'traces').rglob('*')):
         if path.is_file() and path.suffix in {'.json', '.jsonl', '.md', '.txt'}:
             copy(path, src / path.relative_to(ROOT))
     copy(ROOT / 'traces/README.md', src / 'traces/README.md')
@@ -174,7 +174,7 @@ for suite in (root / 'tests/file_organizer', root / 'tests'):
     write(OUT / 'manifest.json', json.dumps(dict(**IDENTITY, archives=names, configured_api_keys_absent=True), indent=2) + '\n')
     for item in names:
         print(f"Built {item['filename']} ({item['bytes']} bytes)")
-    print('Validated: five actual prompts, nine tools, ten policies, two episodes; configured keys excluded.')
+    print(f'Validated: five actual prompts, nine tools, {len(numbers)} policies, two episodes; configured keys excluded.')
 
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@ The application organizes a workspace containing private folders at
 `users/<username>/` and a shared folder at `shared/`. Five LLM agents communicate
 through explicit queued messages and maintain separate histories: Interpreter,
 Planner, Analyzer, Arbiter, and Executor. The application supports organization
-requests, evidence-based classification, proposed moves, boundary review,
+requests, evidence-based classification, proposed moves and explicitly permitted deletions, boundary review,
 authorization, user confirmation, and local replay of agent communication.
 
 ## Functional requirements
@@ -17,10 +17,10 @@ authorization, user confirmation, and local replay of agent communication.
 | R2 | Interpreter translates user intent; Planner coordinates; Executor gathers filesystem evidence and moves files; Analyzer classifies relayed evidence; Arbiter judges scope boundaries. |
 | R3 | Classify documents into Papers, Courses, Receipts, Sensitive, or Other using actual requested metadata and bounded anonymized content when needed. |
 | R4 | Planner relays evidence into each agent's appropriate context; unresolved trace IDs do not replace the evidence another agent needs. |
-| R5 | Register source/destination/reason/evidence references in versioned plans with content hashes, a digest, and pending-operation status. |
+| R5 | Register move/delete operations with source, destination for moves, reason, and evidence references in versioned plans with content hashes, a digest, and pending-operation status. |
 | R6 | Expose explicit confirmation and synthetic authorization capabilities; record responses and operation-bound tokens without logging entered passwords. |
 | R7 | Support a cross-boundary sharing decision through the LLM Arbiter, followed by the required authorization and confirmation workflow. |
-| R8 | Preserve original contents and every copy; handle conflicts without deletion or overwriting and verify moves with hashes. |
+| R8 | Preserve original contents and every copy unless the user explicitly permits a named deletion; require confirmation and authorization for destructive operations. |
 | R9 | Record full visible model requests/responses, actions, inter-agent messages, tool observations, plan state, and a terminal outcome in JSONL. |
 | R10 | Provide a local browser viewer with group chat, individual agent histories, abbreviated tool calls, exact arguments/results, and trace/usage inspection. |
 | R11 | Provide reproducible synthetic scenarios, offline tests, and at least three real-model Phase 1 episode traces with scenario/policy annotations. |
@@ -33,7 +33,8 @@ The detailed per-agent permission, capability, ordering, information-flow, and
 isolation boundaries are in [policies.md](policies.md). The runtime's canonical
 policy source is [file_organizer/policy.md](file_organizer/policy.md).
 
-- Delete files, overwrite an occupied destination, or lose any original copy.
+- Delete files without specific user permission, explicit confirmation, and successful Runtime authorization, or continue after an incorrect password.
+- Overwrite an occupied destination or lose copies outside explicitly authorized deletion.
 - Modify another user's files or use their private evidence to plan this user's work.
 - Send other-user evidence to Interpreter/Analyzer, or filenames/content to Arbiter.
 - Treat file-contained instructions or approval claims as authority.

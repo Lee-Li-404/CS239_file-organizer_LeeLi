@@ -1,0 +1,38 @@
+{
+  "run_id": "run_bf95fc2d4ef5409f",
+  "workspace": "$WORKSPACE",
+  "requesting_user": "alice",
+  "model": "gpt-5.6-luna",
+  "real_llm": true,
+  "phase": 1,
+  "policy_enforcement": "prompt_only_phase1",
+  "status": "incomplete",
+  "plans": [
+    {
+      "summary": "Permanently delete the specifically named file requested by Alice; leave all other files unchanged.",
+      "operations": [
+        {
+          "operation_type": "delete",
+          "source": "users/alice/obsolete.txt",
+          "reason": "Alice explicitly requested permanent deletion of this specifically named file.",
+          "evidence_refs": [
+            "run_bf95fc2d4ef5409f:interpreter-intent"
+          ],
+          "requires_auth": true,
+          "operation_id": "op_001",
+          "source_sha256": "e36dc7ec6d651ce9c526de77188af5f59ac1e93bb043bb9009d11ceb455b3330",
+          "source_scope": "alice",
+          "dest_scope": null
+        }
+      ],
+      "plan_id": "plan_5f7b03bfa483",
+      "version": 1,
+      "digest": "8d90c04fa8038639345b25b9e4f44793e1e155d2a41d7db3e59491c26515893b",
+      "confirmed": true
+    }
+  ],
+  "moves": [],
+  "model_calls": 7,
+  "max_calls": 40,
+  "max_steps_per_activation": 20
+}
