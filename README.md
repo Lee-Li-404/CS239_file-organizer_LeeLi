@@ -2,6 +2,10 @@
 
 Phase 1 multi-agent prototype by **Lee Li** (UID **006997204**), licensed under MIT.
 
+**[Open the public trace viewer](https://cs239-file-organizer.vercel.app/)** — explore
+all five saved runs with agent chats, tool calls, and workspace views. Live agent
+execution runs locally.
+
 ## Purpose
 
 This application organizes files in a shared workspace using natural-language
