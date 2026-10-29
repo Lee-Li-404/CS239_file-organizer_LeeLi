@@ -23,7 +23,7 @@ authorization, user confirmation, and local replay of agent communication.
 | R8 | Preserve original contents and every copy unless the user explicitly permits a named deletion; require confirmation and authorization for destructive operations. |
 | R9 | Record full visible model requests/responses, actions, inter-agent messages, tool observations, plan state, and a terminal outcome in JSONL. |
 | R10 | Provide a local browser viewer with group chat, individual agent histories, abbreviated tool calls, exact arguments/results, and trace/usage inspection. |
-| R11 | Provide reproducible synthetic scenarios, offline tests, and at least three real-model Phase 1 episode traces with scenario/policy annotations. |
+| R11 | Provide reproducible synthetic scenarios, offline tests, and four real-model Phase 1 episode traces with scenario/policy annotations. |
 | R12 | Retain resource controls such as command timeout, output size, and model-call budget, with no application RPM cap for OpenAI. |
 
 ## What the application must never do

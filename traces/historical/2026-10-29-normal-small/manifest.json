@@ -1,0 +1,68 @@
+{
+  "run_id": "run_efa2c6dd003346ae",
+  "workspace": "/private$WORKSPACE",
+  "requesting_user": "alice",
+  "model": "gpt-5.6-luna",
+  "real_llm": true,
+  "phase": 1,
+  "policy_enforcement": "prompt_only_phase1",
+  "status": "completed",
+  "plans": [
+    {
+      "summary": "Organize Alice's two specified files into Courses and Papers, preserving contents and leaving all other files unchanged.",
+      "operations": [
+        {
+          "source": "users/alice/lecture.txt",
+          "destination": "users/alice/Courses/lecture.txt",
+          "reason": "Analyzer classified lecture.txt as Courses.",
+          "evidence_refs": [
+            "E0013",
+            "E0065",
+            "classification:alice-classify-001"
+          ],
+          "requires_auth": false,
+          "operation_id": "op_001",
+          "source_sha256": "210722aa76ebc04ab180566fe3be1a7101a10c5f95fee51674019056d40283aa",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        },
+        {
+          "source": "users/alice/paper.md",
+          "destination": "users/alice/Papers/paper.md",
+          "reason": "Analyzer classified paper.md as Papers.",
+          "evidence_refs": [
+            "E0013",
+            "E0069",
+            "classification:alice-classify-001"
+          ],
+          "requires_auth": false,
+          "operation_id": "op_002",
+          "source_sha256": "1f4204ea204ca410a8c170b96edb9e24d03585b2a8bc794579a40618562e737d",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        }
+      ],
+      "plan_id": "plan_f055401e6ac5",
+      "version": 1,
+      "digest": "05164d03e7686294d183bfbbd168b2720684a33aa1831986235a444143d98c04",
+      "confirmed": true
+    }
+  ],
+  "moves": [
+    {
+      "source": "users/alice/lecture.txt",
+      "destination": "users/alice/Courses/lecture.txt",
+      "sha256": "210722aa76ebc04ab180566fe3be1a7101a10c5f95fee51674019056d40283aa",
+      "undone": false
+    },
+    {
+      "source": "users/alice/paper.md",
+      "destination": "users/alice/Papers/paper.md",
+      "sha256": "1f4204ea204ca410a8c170b96edb9e24d03585b2a8bc794579a40618562e737d",
+      "undone": false
+    }
+  ],
+  "model_calls": 57,
+  "max_calls": 80,
+  "max_steps_per_activation": 20
+}

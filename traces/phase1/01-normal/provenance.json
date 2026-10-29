@@ -2,24 +2,24 @@
   "transformation": "Absolute workspace -> $WORKSPACE; absolute project root -> $PROJECT_ROOT. All events retained.",
   "files": {
     "trace.jsonl": {
-      "original_sha256": "72068441b39b09f088fc8d2aa8b6aefe0728ec970cbc7ff3fa1755852c167593",
-      "exported_sha256": "73f58042377254277287651e5f5d4e68841b05f297bb1b7d1b3f6d47ab3b06f4"
+      "original_sha256": "88491ec2b03e030997c088d2a8d3baed6ccf71ba8e52af9fe1d5dcdb140331c3",
+      "exported_sha256": "668df9e141cde118a61d0f064c54889fdcce42a44e9a9ec533fac8ebc1942d2b"
     },
     "manifest.json": {
-      "original_sha256": "62f56f880a63b1f75e0d14558c046984ddadfa9ed6189236e1212ff247834eaf",
-      "exported_sha256": "5aaeb55ab3b63aa08ba59a065bebb76dbe89af554ccd02d4f4b87d3fbb9364e7"
+      "original_sha256": "82a47908ed5f5b548a9ca11cfbc131a7924ca0725b0f30dd94c3db9bc22d6cc2",
+      "exported_sha256": "6bc68fa0849587b863bdc9f88c8b9cc2a1e4347e253da9e4933b1f0e110ad64a"
     },
     "demo_settings.json": {
-      "original_sha256": "b6275298941b812af87756b90def6696ddb6c62d249f50e982d594fb70d9d95f",
-      "exported_sha256": "b6275298941b812af87756b90def6696ddb6c62d249f50e982d594fb70d9d95f"
+      "original_sha256": "d219a38716c1c2ed6b42cc61d538e6b1c99903431204268147b608049c35c580",
+      "exported_sha256": "d219a38716c1c2ed6b42cc61d538e6b1c99903431204268147b608049c35c580"
     },
     "demo_summary.json": {
-      "original_sha256": "acc16c4b845f6bfc6ef0d08c75dde87a72749c10229724ff146f0d9cae8cf679",
-      "exported_sha256": "acc16c4b845f6bfc6ef0d08c75dde87a72749c10229724ff146f0d9cae8cf679"
+      "original_sha256": "ff0fa43df5eb9cd5917a1deb3543c1a9413dee9bdc38fd4ff26879fd9200884a",
+      "exported_sha256": "ff0fa43df5eb9cd5917a1deb3543c1a9413dee9bdc38fd4ff26879fd9200884a"
     },
     "source_snapshot.json": {
-      "original_sha256": "0fca7509d8d5203df3e1d2dd71396a640df813b2efe5c962bd63c307d068a87a",
-      "exported_sha256": "0fca7509d8d5203df3e1d2dd71396a640df813b2efe5c962bd63c307d068a87a"
+      "original_sha256": "3a6c64f4b6a886287d00cb8079c2782fbcac9e7f75622acef467b5a9cba77915",
+      "exported_sha256": "3a6c64f4b6a886287d00cb8079c2782fbcac9e7f75622acef467b5a9cba77915"
     }
   }
 }

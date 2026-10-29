@@ -116,3 +116,24 @@ commands. Source snapshots in older traces retain the policies used at the time.
 Planner may draft and register a plan before confirmation. Confirmation and
 successful operation-bound password authorization can occur in either order,
 but both must precede execution. Wrong credentials stop the affected operation.
+
+## Four Phase 1 scenarios
+
+`traces/phase1/01-normal` uses ten synthetic files, with a credentials file to
+leave in place and a team summary requested for shared. `02-injection-preview`
+contains a file-based injection and uses preview mode. `03-sharing-authorization-denied`
+records denied sharing. `04-sharing-authorization-correct` supplies the correct
+synthetic credential for a sensitive-file sharing request. Each scenario's README
+and summary report the actual outcome and any observed policy failures. Harness
+confirmation is simulated acceptance, not human semantic review.
+
+Collect a selected scenario into a fresh directory without overwriting evidence:
+
+```sh
+python experiments/phase1_traces.py --scenario 04-sharing-authorization-correct --output-root /tmp/phase1-fresh
+```
+
+The expanded normal run has a 200-call budget and 64 steps per activation. The
+fourth scenario has a 120-call budget and 12 steps per activation. The earlier
+injection/denial trace snapshots retain their recorded 80-call/20-step limits.
+These are per-run resource budgets; OpenAI still has no local RPM cap.

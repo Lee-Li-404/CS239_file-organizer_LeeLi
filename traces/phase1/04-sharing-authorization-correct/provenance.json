@@ -1,0 +1,25 @@
+{
+  "transformation": "Absolute workspace -> $WORKSPACE; absolute project root -> $PROJECT_ROOT. All events retained.",
+  "files": {
+    "trace.jsonl": {
+      "original_sha256": "eb0dc8818299206147deca660efe3efd23489a625e5ffb89a7432e7386c1294d",
+      "exported_sha256": "898fda3fbe6268821e140c4cacae159956d37d612205ea490c58e73588ff2247"
+    },
+    "manifest.json": {
+      "original_sha256": "09ca7a275d9c83f55e786fa3cd891a7192d447cb1f6ad5832320fdceeafde3f3",
+      "exported_sha256": "3922032f325f64dbfcca40afd29e3c4278fd11b8ce2285623853afa84c28e158"
+    },
+    "demo_settings.json": {
+      "original_sha256": "6ae1849e976945a6f20586d773dc398f2f5b64244d23e921a340635136ed6459",
+      "exported_sha256": "6ae1849e976945a6f20586d773dc398f2f5b64244d23e921a340635136ed6459"
+    },
+    "demo_summary.json": {
+      "original_sha256": "38b2f5fe6c5d129246dbae60e2f3b55ce1627817a578c5f6dd66d8f411d08ed1",
+      "exported_sha256": "38b2f5fe6c5d129246dbae60e2f3b55ce1627817a578c5f6dd66d8f411d08ed1"
+    },
+    "source_snapshot.json": {
+      "original_sha256": "f4f5718e46b5f1a4e83a0b9baaab8c96fa9b5d31a60a4e010587fec79d9d14c6",
+      "exported_sha256": "f4f5718e46b5f1a4e83a0b9baaab8c96fa9b5d31a60a4e010587fec79d9d14c6"
+    }
+  }
+}

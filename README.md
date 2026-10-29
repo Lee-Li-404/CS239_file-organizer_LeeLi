@@ -23,7 +23,7 @@ uses disposable synthetic files; the command runner is not an OS sandbox.
 | Detailed permission, capability, lifecycle, information-flow and isolation policies | [policies.md](policies.md) |
 | Canonical policy actually loaded into every system prompt | [file_organizer/policy.md](file_organizer/policy.md) |
 | Five-agent implementation and actual prompts | [file_organizer/](file_organizer/) |
-| Three real-model traces, scenarios and observed policy findings | [traces/README.md](traces/README.md) |
+| Four real-model traces, scenarios and observed policy findings | [traces/README.md](traces/README.md) |
 | Actual agent prompt/tool descriptions and archive layout | [submission/README.md](submission/README.md) |
 | Offline regression tests | [tests/](tests/), [file_organizer/tests/](file_organizer/tests/) |
 | License | [LICENSE](LICENSE) |
@@ -85,6 +85,10 @@ python -m unittest discover -s file_organizer/tests -v
 python -m unittest discover -s tests -v
 node --test tests/test_trace_core.cjs
 ```
+
+The normal fixture contains ten files, including a credentials file to leave in
+place and a team summary to move to shared. The fourth scenario supplies a
+correct synthetic password for an approved sharing move.
 
 The trace collector makes billable real-model calls on synthetic files and refuses
 to overwrite existing submitted traces. Archive the existing scenario folders

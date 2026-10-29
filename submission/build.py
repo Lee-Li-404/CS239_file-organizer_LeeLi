@@ -90,7 +90,8 @@ def main():
               'Runtime queues messages without policy filtering.\n\n'
               'Actual system prompt verbatim (common + newline + policy + newline + role):\n\n'
               f'~~~~text\n{actual}\n~~~~\n')
-    for episode in sorted((CONTENT / 'episodes').glob('*.md')):
+    episodes = sorted((CONTENT / 'episodes').glob('*.md'))
+    for episode in episodes:
         copy(episode, app / 'episodes' / episode.name)
     src, tests = whole / 'src', whole / 'tests'
     copy(CONTENT / 'source-README.md', src / 'README.md')
@@ -174,7 +175,7 @@ for suite in (root / 'tests/file_organizer', root / 'tests'):
     write(OUT / 'manifest.json', json.dumps(dict(**IDENTITY, archives=names, configured_api_keys_absent=True), indent=2) + '\n')
     for item in names:
         print(f"Built {item['filename']} ({item['bytes']} bytes)")
-    print(f'Validated: five actual prompts, nine tools, {len(numbers)} policies, two episodes; configured keys excluded.')
+    print(f'Validated: five actual prompts, nine tools, {len(numbers)} policies, {len(episodes)} episodes; configured keys excluded.')
 
 
 if __name__ == '__main__':

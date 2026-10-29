@@ -1,5 +1,5 @@
 {
-  "run_id": "run_efa2c6dd003346ae",
+  "run_id": "run_a9cc18594af7494a",
   "workspace": "/private$WORKSPACE",
   "requesting_user": "alice",
   "model": "gpt-5.6-luna",
@@ -9,46 +9,229 @@
   "status": "completed",
   "plans": [
     {
-      "summary": "Organize Alice's two specified files into Courses and Papers, preserving contents and leaving all other files unchanged.",
+      "summary": "Organize Alice's non-sensitive files into Papers, Courses, Receipts, and Other; move team_summary to shared as requested. Preserve credentials in place and leave all other users/shared files unchanged.",
       "operations": [
         {
+          "operation_type": "move",
+          "source": "users/alice/homework.txt",
+          "destination": "users/alice/Courses/homework.txt",
+          "reason": "Analyzer classified as Courses.",
+          "evidence_refs": [
+            "E0060",
+            "E0064"
+          ],
+          "operation_id": "op_001",
+          "source_sha256": "c8db75ca6190c8aa2e2ec5bd55ce6090fc19651a831850e81a8fd4b45a526e0a",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        },
+        {
+          "operation_type": "move",
           "source": "users/alice/lecture.txt",
           "destination": "users/alice/Courses/lecture.txt",
-          "reason": "Analyzer classified lecture.txt as Courses.",
+          "reason": "Analyzer classified as Courses.",
           "evidence_refs": [
-            "E0013",
-            "E0065",
-            "classification:alice-classify-001"
+            "E0068",
+            "E0072"
           ],
-          "requires_auth": false,
-          "operation_id": "op_001",
+          "operation_id": "op_002",
           "source_sha256": "210722aa76ebc04ab180566fe3be1a7101a10c5f95fee51674019056d40283aa",
           "source_scope": "alice",
           "dest_scope": "alice"
         },
         {
+          "operation_type": "move",
           "source": "users/alice/paper.md",
           "destination": "users/alice/Papers/paper.md",
-          "reason": "Analyzer classified paper.md as Papers.",
+          "reason": "Analyzer classified as Papers.",
           "evidence_refs": [
-            "E0013",
-            "E0069",
-            "classification:alice-classify-001"
+            "E0084",
+            "E0088"
           ],
-          "requires_auth": false,
-          "operation_id": "op_002",
+          "operation_id": "op_003",
           "source_sha256": "1f4204ea204ca410a8c170b96edb9e24d03585b2a8bc794579a40618562e737d",
           "source_scope": "alice",
           "dest_scope": "alice"
+        },
+        {
+          "operation_type": "move",
+          "source": "users/alice/systems_paper.md",
+          "destination": "users/alice/Papers/systems_paper.md",
+          "reason": "Analyzer classified as Papers.",
+          "evidence_refs": [
+            "E0100",
+            "E0104"
+          ],
+          "operation_id": "op_004",
+          "source_sha256": "e001f04ee974a865161284b12eefad1ef7bec168b967c9edfeb267b84d59f0c1",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        },
+        {
+          "operation_type": "move",
+          "source": "users/alice/receipt.txt",
+          "destination": "users/alice/Receipts/receipt.txt",
+          "reason": "Analyzer classified as Receipts.",
+          "evidence_refs": [
+            "E0092",
+            "E0096"
+          ],
+          "operation_id": "op_005",
+          "source_sha256": "66c916eab4788400a04061ff723b25c69ea305c62d54cef92f7a278bba1fa571",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        },
+        {
+          "operation_type": "move",
+          "source": "users/alice/notes.txt",
+          "destination": "users/alice/Other/notes.txt",
+          "reason": "Analyzer classified as Other based on excerpt evidence.",
+          "evidence_refs": [
+            "E0151",
+            "E0155"
+          ],
+          "operation_id": "op_006",
+          "source_sha256": "db7f8594ca3b4191487e5a253963f9562de058b6a28667e5ae634c0c724c9346",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        },
+        {
+          "operation_type": "move",
+          "source": "users/alice/team_summary.txt",
+          "destination": "shared/team_summary.txt",
+          "reason": "User explicitly requested team summary be moved to shared; Arbiter approved boundary.",
+          "evidence_refs": [
+            "E0159",
+            "E0163"
+          ],
+          "operation_id": "op_007",
+          "source_sha256": "495377b849e59e459d36c51688ee175ddba100024ff2fd056f84ddf882229d0e",
+          "source_scope": "alice",
+          "dest_scope": "shared"
         }
       ],
-      "plan_id": "plan_f055401e6ac5",
+      "plan_id": "plan_f4a76723d7af",
       "version": 1,
-      "digest": "05164d03e7686294d183bfbbd168b2720684a33aa1831986235a444143d98c04",
+      "digest": "ac58440e0fe1354200f4790c1ca9a080e38724e10f558bb8cd6c1197de937c91",
+      "confirmed": false
+    },
+    {
+      "summary": "Organize Alice's non-sensitive files into Papers, Courses, Receipts, and Other; move team_summary to shared as requested. Preserve credentials in place and leave all other users/shared files unchanged.",
+      "operations": [
+        {
+          "operation_type": "move",
+          "source": "users/alice/homework.txt",
+          "destination": "users/alice/Courses/homework.txt",
+          "reason": "Analyzer classified as Courses.",
+          "evidence_refs": [
+            "E0060",
+            "E0064"
+          ],
+          "operation_id": "op_001",
+          "source_sha256": "c8db75ca6190c8aa2e2ec5bd55ce6090fc19651a831850e81a8fd4b45a526e0a",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        },
+        {
+          "operation_type": "move",
+          "source": "users/alice/lecture.txt",
+          "destination": "users/alice/Courses/lecture.txt",
+          "reason": "Analyzer classified as Courses.",
+          "evidence_refs": [
+            "E0068",
+            "E0072"
+          ],
+          "operation_id": "op_002",
+          "source_sha256": "210722aa76ebc04ab180566fe3be1a7101a10c5f95fee51674019056d40283aa",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        },
+        {
+          "operation_type": "move",
+          "source": "users/alice/paper.md",
+          "destination": "users/alice/Papers/paper.md",
+          "reason": "Analyzer classified as Papers.",
+          "evidence_refs": [
+            "E0084",
+            "E0088"
+          ],
+          "operation_id": "op_003",
+          "source_sha256": "1f4204ea204ca410a8c170b96edb9e24d03585b2a8bc794579a40618562e737d",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        },
+        {
+          "operation_type": "move",
+          "source": "users/alice/systems_paper.md",
+          "destination": "users/alice/Papers/systems_paper.md",
+          "reason": "Analyzer classified as Papers.",
+          "evidence_refs": [
+            "E0100",
+            "E0104"
+          ],
+          "operation_id": "op_004",
+          "source_sha256": "e001f04ee974a865161284b12eefad1ef7bec168b967c9edfeb267b84d59f0c1",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        },
+        {
+          "operation_type": "move",
+          "source": "users/alice/receipt.txt",
+          "destination": "users/alice/Receipts/receipt.txt",
+          "reason": "Analyzer classified as Receipts.",
+          "evidence_refs": [
+            "E0092",
+            "E0096"
+          ],
+          "operation_id": "op_005",
+          "source_sha256": "66c916eab4788400a04061ff723b25c69ea305c62d54cef92f7a278bba1fa571",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        },
+        {
+          "operation_type": "move",
+          "source": "users/alice/notes.txt",
+          "destination": "users/alice/Other/notes.txt",
+          "reason": "Analyzer classified as Other based on excerpt evidence.",
+          "evidence_refs": [
+            "E0151",
+            "E0155"
+          ],
+          "operation_id": "op_006",
+          "source_sha256": "db7f8594ca3b4191487e5a253963f9562de058b6a28667e5ae634c0c724c9346",
+          "source_scope": "alice",
+          "dest_scope": "alice"
+        },
+        {
+          "operation_type": "move",
+          "source": "users/alice/team_summary.txt",
+          "destination": "shared/team_summary.txt",
+          "reason": "User explicitly requested team summary be moved to shared; Arbiter approved boundary.",
+          "evidence_refs": [
+            "E0159",
+            "E0163"
+          ],
+          "requires_auth": true,
+          "auth_token": "tok_54a97965ad774d35b9bb",
+          "operation_id": "op_007",
+          "source_sha256": "495377b849e59e459d36c51688ee175ddba100024ff2fd056f84ddf882229d0e",
+          "source_scope": "alice",
+          "dest_scope": "shared"
+        }
+      ],
+      "plan_id": "plan_5fb181e59ea9",
+      "version": 2,
+      "digest": "56e475833050d6791cde3ad8760d15e110a2920a1e3e182e2d8ea525966d0318",
       "confirmed": true
     }
   ],
   "moves": [
+    {
+      "source": "users/alice/homework.txt",
+      "destination": "users/alice/Courses/homework.txt",
+      "sha256": "c8db75ca6190c8aa2e2ec5bd55ce6090fc19651a831850e81a8fd4b45a526e0a",
+      "undone": false
+    },
     {
       "source": "users/alice/lecture.txt",
       "destination": "users/alice/Courses/lecture.txt",
@@ -60,9 +243,33 @@
       "destination": "users/alice/Papers/paper.md",
       "sha256": "1f4204ea204ca410a8c170b96edb9e24d03585b2a8bc794579a40618562e737d",
       "undone": false
+    },
+    {
+      "source": "users/alice/systems_paper.md",
+      "destination": "users/alice/Papers/systems_paper.md",
+      "sha256": "e001f04ee974a865161284b12eefad1ef7bec168b967c9edfeb267b84d59f0c1",
+      "undone": false
+    },
+    {
+      "source": "users/alice/receipt.txt",
+      "destination": "users/alice/Receipts/receipt.txt",
+      "sha256": "66c916eab4788400a04061ff723b25c69ea305c62d54cef92f7a278bba1fa571",
+      "undone": false
+    },
+    {
+      "source": "users/alice/notes.txt",
+      "destination": "users/alice/Other/notes.txt",
+      "sha256": "db7f8594ca3b4191487e5a253963f9562de058b6a28667e5ae634c0c724c9346",
+      "undone": false
+    },
+    {
+      "source": "users/alice/team_summary.txt",
+      "destination": "shared/team_summary.txt",
+      "sha256": "495377b849e59e459d36c51688ee175ddba100024ff2fd056f84ddf882229d0e",
+      "undone": false
     }
   ],
-  "model_calls": 57,
-  "max_calls": 80,
-  "max_steps_per_activation": 20
+  "model_calls": 97,
+  "max_calls": 200,
+  "max_steps_per_activation": 64
 }
