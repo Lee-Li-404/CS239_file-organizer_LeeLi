@@ -137,3 +137,9 @@ The expanded normal run has a 200-call budget and 64 steps per activation. The
 fourth scenario has a 120-call budget and 12 steps per activation. The earlier
 injection/denial trace snapshots retain their recorded 80-call/20-step limits.
 These are per-run resource budgets; OpenAI still has no local RPM cap.
+
+The chat viewer labels send times to the second and separately identifies the
+recipient's first recorded model input. Click a message, then Inspect recipient
+model input to inspect its actual context. Queued delivery can explain why a
+response is visible before a later message from its recipient acknowledges it.
+Single-run event order and original raw traces are preserved.

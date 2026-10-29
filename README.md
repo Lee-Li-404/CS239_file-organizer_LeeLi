@@ -74,7 +74,9 @@ python -m downloads_organizer view --run traces/phase1/01-normal --port 8878
 
 Open http://127.0.0.1:8878/. Agent chats includes a combined group chat and each
 agent's messages. Expand a compact tool call for exact arguments and observations,
-or select an agent's Trace tab for model requests/responses. Repeat `--run` to
+or select an agent's Trace tab for model requests/responses. Message times include
+seconds and distinguish send time from the recipient's first recorded model input.
+The message inspector links to that input, explaining queued-message delays. Repeat `--run` to
 load more scenarios. Replay makes no model calls or file changes.
 
 ## Reproduce traces and run tests

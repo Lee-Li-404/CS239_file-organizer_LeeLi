@@ -330,6 +330,10 @@ function renderInspector(e) {
   const kv=el('dl','detail-kv');for(const [label,value] of [['Participant',names[e._actor]||e._actor],['Event type',e.kind],['Source line',e._line??'Bundled event']])kv.append(el('dt','',label),el('dd','',value));content.append(kv);
   if(e.kind==='agent_message') {
     const m=e.message||{};content.append(detailSection('Message envelope',jsonBlock({sender:m.sender,recipient:m.recipient,type:m.type,message_id:m.message_id})),detailSection('Exact payload',jsonBlock(m.payload)));
+    content.append(el('p','detail-note',`Sent/queued at ${e.timestamp||'unknown time'}. A recipient model input can occur later.`));
+    const recipientInput=findEvent(e._recipientInput);
+    if(recipientInput){content.append(el('p','detail-note',`First recorded recipient input: ${recipientInput.event_id||'record'} · ${recipientInput.timestamp||'unknown time'}.`),button('Inspect recipient model input ↗','peer-button',()=>selectEvent(recipientInput)));}
+    else content.append(el('p','detail-note',m.recipient==='runtime'?'Runtime records this message without an agent activation.':'No matching recipient model input is recorded.'));
     if(m.sender!=='runtime')content.append(el('p','detail-note','An agent message reports information or requests an action. Verify factual claims against the referenced tool observations.'));
     if(m.payload?.analysis_provenance)content.append(el('p','detail-note','Replayed analysis from another run. This message is not a new Analyzer response.'));
   } else if(e.kind==='tool_request') {

@@ -28,7 +28,7 @@ metadata. The original implementation and existing viewer commands remain in pla
 ## Verification
 
 Clean archive extraction passed 24 selected-app Python tests, 86 shared/legacy
-Python tests, and 27 viewer JavaScript tests (137 total). A wheel built offline
+Python tests, and 30 viewer JavaScript tests (140 total). A wheel built offline
 with --no-deps --no-build-isolation includes the policy, prompts, viewer assets,
 and organize-files entry point. All five documented system prompts exactly match
 runtime composition. The 318-event historical trace loads without viewer warnings.
@@ -101,3 +101,14 @@ primary fourth trace is a fresh 40-call run with shorter activations. No origina
 raw events, source snapshots, or historical results are rewritten. The updated
 collector supports an alternate output root and records per-scenario credential
 mode, budgets, file counts, policy hash, grants/denials, and tool errors.
+
+## Viewer ordering clarification
+
+Chat order was checked against all four raw traces. The viewer now shows sent
+seconds and the first recorded recipient model input, with an inspector link.
+This distinguishes queueing from recipient processing without reordering the
+source events. Three new JavaScript regressions cover exact recipient/context
+matching, first-input retention, cross-run isolation, ambiguous IDs, and raw-event
+preservation. The current viewer checks pass 30 JavaScript and seven Python tests.
+No model calls or changes to the application policy/runtime were made for this UI
+clarification; historical trace/source snapshots remain unchanged.

@@ -100,3 +100,19 @@ case with `python experiments/deletion_wrong_password.py` (billable API calls).
 The expanded normal and the completed fourth trace use current P1–P9. Older
 snapshots retain P10 and the policy wording actually used at execution time.
 No old prompt snapshot or raw event stream has been rewritten to match new policy.
+
+## Message ordering in the chat viewer
+
+Within one run, messages and tools retain recorded event order. A message is
+shown when sent/queued; the recipient may receive it in a model input later.
+Chat times include seconds, and each message names its first recorded recipient
+input when an exact unique message ID can be matched. The inspector links to
+that input. Missing or ambiguous evidence is left uncorrelated; raw events and
+source timestamps are not rewritten. All loaded runs are combined by send time;
+select one run to follow that run's recorded order.
+
+In the expanded normal run, Planner's Arbiter request E0017 precedes its Executor
+evidence request E0027. In the fourth run, Executor evidence gathering is requested
+at E0013 before Arbiter review at E0018. This is the actual sent order. The execution
+request E0087 occurs after Arbiter approval E0044, authorization E0073, and
+confirmation E0078. Evidence gathering is distinct from carrying out the move.

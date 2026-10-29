@@ -133,6 +133,27 @@
       });
       if (pendingTools.size) warnings.push(`${pendingTools.size} tool request(s) have no recorded result.`);
       if (pendingModels.size) warnings.push(`${pendingModels.size} model input(s) have no recorded response.`);
+      // A sent message is queued; its recipient's input can occur much later.
+      // Link only an exact, unique ID in that recipient's recorded user context.
+      const sent = new Map();
+      for (const e of run.events) {
+        const messageId = e.kind === 'agent_message' && e.message?.message_id;
+        if (typeof messageId === 'string' && messageId) sent.set(messageId, sent.has(messageId) ? null : e);
+      }
+      for (const input of run.events) {
+        if (input.kind !== 'model_request' || !Array.isArray(input.messages)) continue;
+        for (const context of input.messages) {
+          if (context?.role !== 'user') continue;
+          let envelope = context.content;
+          try { if (typeof envelope === 'string') envelope = JSON.parse(envelope); } catch (_) { continue; }
+          const message = sent.get(envelope?.message_id);
+          if (!message || message._recipientInput || message._index >= input._index
+              || message.message.recipient !== input._actor) continue;
+          message._recipientInput = input._uid;
+          message._recipientInputId = input.event_id;
+          message._recipientInputAt = input.timestamp;
+        }
+      }
       return run;
     });
   }

@@ -45,7 +45,11 @@ python -m downloads_organizer view --run PATH_TO_RUN_DIRECTORY
 
 The default Agent chats view shows an inbox with one row per agent, latest-message
 previews, and timestamps. Open an agent to read its sent and received messages.
-The pinned Group chat combines every agent's messages in recorded order. Compact
+The pinned Group chat combines every agent's messages in recorded send order.
+Message times include seconds; recipient input labels link a queued message to
+the first recorded model input containing its exact message ID. Sent order and
+recipient processing time can differ. Open the message inspector to jump to that
+input; unavailable or ambiguous links are not guessed. Compact
 tool calls appear inline by default and can be hidden with Show tool calls.
 Click a compact call to inspect its original arguments and matched result;
 successful message delivery is shown once as its message, not duplicated as a tool.

@@ -11,7 +11,8 @@
   function btn(text,cls,fn){const b=el('button',cls,text);b.type='button';b.addEventListener('click',fn);return b;}
   function avatar(actor,extra=''){const a=el('span',`chat-avatar ${shapes[actor]||'round'} ${extra}`);a.style.setProperty('--avatar-color',palette[actor]||'#7e97b1');a.setAttribute('aria-hidden','true');a.append(el('i','eye'),el('i','eye'));return a;}
   function groupAvatar(){const a=el('span','chat-group-avatar');a.setAttribute('aria-hidden','true');for(const actor of ['planner','analyzer','executor'])a.append(avatar(actor,'tiny-avatar'));return a;}
-  function clock(e){const d=new Date(e?.timestamp);return Number.isFinite(+d)?d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}):'—';}
+  function clock(e,seconds=false){const d=new Date(e?.timestamp);return Number.isFinite(+d)?d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit',...(seconds?{second:'2-digit'}:{})}):'—';}
+  function stamp(e,sent=false){const n=el('time','',`${sent?'Sent ':''}${clock(e,true)}`);n.title=e.timestamp||'Timestamp not recorded';return n;}
   function date(e){const d=new Date(e?.timestamp);return Number.isFinite(+d)?d.toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'}):'Date not recorded';}
   function text(payload){
     if(!payload||typeof payload!=='object')return String(payload??'');
@@ -91,6 +92,7 @@
       chips.append(btn('All conversations',`chat-peer-chip${!ctx.peer?' active':''}`,()=>ctx.onPeer('')));
       peers.forEach(peer=>chips.append(btn(name(peer),`chat-peer-chip${ctx.peer===peer?' active':''}`,()=>ctx.onPeer(peer))));thread.append(chips);
     }
+    if(ctx.mode==='messages')thread.append(el('p','chat-order-note',ctx.runs.length>1?'Runs are combined by send time. Select one run for its recorded order.':'Recorded send order. Queued messages can reach the recipient’s model input later.'));
     const stream=el('div','chat-history');stream.setAttribute('role','tabpanel');stream.setAttribute('aria-label',ctx.mode==='messages'?'Agent message history':'Agent trace history');
     const items=ctx.mode==='messages'?activity:trace;let previousDate='';const entries=[];
     for(const event of items.slice(0,ctx.limit)){
@@ -99,22 +101,24 @@
         const result=eventMap.get(event._peer)?.result;
         const status=!result?'No result':result.timed_out?'Timed out':result.error?'Error':typeof result.exit_code==='number'?`Exit ${result.exit_code}`:'Done';
         const entry=btn('','chat-tool-event',()=>ctx.onInspect(event));entry.dataset.uid=event._uid;entry.setAttribute('aria-label',`Inspect ${name(event._actor)} ${event.name} tool call ${event.event_id}`);
-        const meta=el('div','chat-tool-byline');meta.append(avatar(event._actor,'tiny-avatar'),el('strong','',name(event._actor)),el('span','chat-tool-status',status),el('time','',clock(event)));
+        const meta=el('div','chat-tool-byline');meta.append(avatar(event._actor,'tiny-avatar'),el('strong','',name(event._actor)),el('span','chat-tool-status',status),stamp(event));
         entry.append(meta,el('code','chat-tool-summary',C.toolCallSummary(event)),el('span','chat-tool-open',`Arguments & result ↗ · ${event.event_id}`));stream.append(entry);entries.push({node:entry,event});
       }else if(ctx.mode==='messages'){
         const m=event.message,p=m.payload||{},outgoing=agent&&m.sender===agent;
         const entry=el('div',`chat-entry${outgoing?' outgoing':''}`);entry.dataset.uid=event._uid;
-        const byline=el('div','chat-entry-byline');byline.append(avatar(m.sender,'tiny-avatar'),el('strong','',name(m.sender)),el('span','',`to ${name(m.recipient)}`),el('time','',clock(event)));entry.append(byline);
+        const byline=el('div','chat-entry-byline');byline.append(avatar(m.sender,'tiny-avatar'),el('strong','',name(m.sender)),el('span','',`to ${name(m.recipient)}`),stamp(event,true));entry.append(byline);
         const bubble=btn('','chat-bubble',()=>ctx.onInspect(event));bubble.setAttribute('aria-label',`Inspect ${name(m.sender)} to ${name(m.recipient)} ${m.type||'message'} ${event.event_id}`);
         bubble.append(el('span','chat-message-type',(m.type||'message').replaceAll('_',' ')),el('p','chat-message-text',text(p)));
         if(Array.isArray(p.files)){
           const files=el('div','chat-file-report');
           for(const value of p.files){const file=value&&typeof value==='object'?value:{path:String(value)},row=el('div','chat-file-row');row.append(el('strong','',file.path||file.file_id||'File'),el('span',file.sensitive?'chat-sensitive':'',file.category||'Evidence requested'));if(file.reason)row.append(el('p','',file.reason));files.append(row);}bubble.append(files);
         }
+        const recipientInput=eventMap.get(event._recipientInput);
+        bubble.append(el('span','chat-message-delivery',recipientInput?`${name(m.recipient)} input: ${recipientInput.event_id||'record'} · ${clock(recipientInput,true)}`:m.recipient==='runtime'?'Recorded by Runtime; no agent input expected.':'No recipient model input recorded.'));
         bubble.append(el('span','chat-inspect-link',`View message & trace ↗  ·  ${event.event_id||'source record'}`));entry.append(bubble);stream.append(entry);entries.push({node:entry,event});
       }else{
         const entry=btn('','chat-trace-event',()=>ctx.onInspect(event));entry.dataset.uid=event._uid;
-        const meta=el('div','chat-trace-meta');meta.append(el('span',`chat-trace-kind kind-${event._group}`,event.kind.replaceAll('_',' ')),el('span','',event.event_id||'record'),el('time','',clock(event)));
+        const meta=el('div','chat-trace-meta');meta.append(el('span',`chat-trace-kind kind-${event._group}`,event.kind.replaceAll('_',' ')),el('span','',event.event_id||'record'),stamp(event));
         const title=event.kind==='agent_message'?`${name(event.message?.sender)} → ${name(event.message?.recipient)}`:event._title;
         entry.append(meta,el('strong','chat-trace-event-title',title));
         let preview=event._preview||'';
@@ -125,7 +129,7 @@
     if(items.length>ctx.limit)stream.append(btn(`Show ${Math.min(180,items.length-ctx.limit)} more records`,'chat-load-more',ctx.onMore));
     const empty=el('p','chat-history-empty',items.length?'No matching messages or trace records.':'No records in this conversation.');empty.hidden=!!items.length;stream.append(empty);
     historySearch.addEventListener('input',()=>{const q=historySearch.value.toLowerCase().trim();let count=0;for(const entry of entries){entry.node.hidden=!!q&&!(entry.event._search||entry.node.textContent).toLowerCase().includes(q);if(!entry.node.hidden)count++;}empty.hidden=!!count;stream.querySelectorAll('.chat-date-divider').forEach(d=>{d.hidden=!!q;});});
-    thread.append(stream,el('footer','chat-thread-footer',ctx.mode==='messages'?'Messages and tool calls in recorded order · click any entry for its trace':'Recorded model inputs, outputs, tool calls, and results · click to inspect'));
+    thread.append(stream,el('footer','chat-thread-footer',ctx.mode==='messages'?'Sent order · recipient input may occur later · click for source records':'Recorded model inputs, outputs, tool calls, and results · click to inspect'));
     layout.append(thread);content.append(layout);
   }
   root.TraceChat={render};

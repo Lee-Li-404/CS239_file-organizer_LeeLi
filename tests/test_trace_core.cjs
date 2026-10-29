@@ -9,6 +9,42 @@ const C=require(path.join(sourceRoot,'downloads_organizer/viewer_assets/trace-co
 const event=(kind,fields={})=>({kind,run_id:'r1',event_id:'e1',...fields});
 const bundle=(events,sidecars={})=>C.buildRuns({name:'test',events,sidecars});
 
+test('queued messages link to first recipient input without reordering or changing source records',()=>{
+  const message={message_id:'queued-1',sender:'planner',recipient:'executor',payload:{kind:'evidence'}};
+  const sent=event('agent_message',{event_id:'sent',timestamp:'2026-10-29T12:00:02Z',message});
+  const context=[{role:'system',content:JSON.stringify(message)},{role:'user',content:'not JSON'},{role:'user',content:JSON.stringify(message)}];
+  const [run]=bundle([sent,
+    event('agent_message',{event_id:'boundary',timestamp:'2026-10-29T12:00:02Z',message:{message_id:'queued-2',sender:'planner',recipient:'arbiter'}}),
+    event('model_request',{event_id:'wrong-agent',agent:'planner',messages:context}),
+    event('model_request',{event_id:'first-input',timestamp:'2026-10-29T12:00:01Z',agent:'executor',messages:context}),
+    event('model_response',{event_id:'response',agent:'executor',message:{content:'done'}}),
+    event('model_request',{event_id:'later-input',agent:'executor',messages:context}),
+  ]);
+  assert.equal(run.events[0]._recipientInput,run.events[3]._uid);
+  assert.equal(run.events[0]._recipientInputId,'first-input');
+  assert.equal(run.events[0]._recipientInputAt,'2026-10-29T12:00:01Z');
+  assert.equal(run.events[1]._recipientInput,undefined);
+  assert.deepEqual(C.chatActivity(run.events,{tools:false}).map(e=>e.event_id),['sent','boundary']);
+  assert.deepEqual(C.raw(run.events[0]),sent);
+});
+test('recipient input correlation cannot cross runs or infer delivery from system context',()=>{
+  const message={message_id:'same-id',sender:'planner',recipient:'executor'};
+  const runs=bundle([
+    event('agent_message',{run_id:'one',event_id:'sent',message}),
+    event('model_request',{run_id:'two',event_id:'input',agent:'executor',messages:[{role:'user',content:JSON.stringify(message)}]}),
+    event('model_request',{run_id:'one',event_id:'system-only',agent:'executor',messages:[{role:'system',content:JSON.stringify(message)}]}),
+  ]);
+  assert.equal(runs[0].events[0]._recipientInput,undefined);
+});
+test('duplicate message IDs remain uncorrelated rather than guessing recipient delivery',()=>{
+  const message={message_id:'ambiguous',sender:'planner',recipient:'executor'};
+  const [run]=bundle([
+    event('agent_message',{event_id:'sent-1',message}),event('agent_message',{event_id:'sent-2',message}),
+    event('model_request',{event_id:'input',agent:'executor',messages:[{role:'user',content:message}]}),
+  ]);
+  assert.equal(run.events[0]._recipientInput,undefined);assert.equal(run.events[1]._recipientInput,undefined);
+});
+
 test('group chat interleaves messages and compact tool calls without duplicate delivery transport',()=>{
   const [run]=bundle([
     event('tool_request',{event_id:'1',agent:'planner',call_id:'send',name:'send_message',arguments:'{}'}),
