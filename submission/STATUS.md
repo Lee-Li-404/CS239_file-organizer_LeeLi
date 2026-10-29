@@ -80,6 +80,8 @@ The new real deletion experiment makes seven calls: a valid confirmation is
 accepted by the test harness, password authorization is requested for op_001,
 an incorrect credential is denied, and no command runs. All originals remain
 unchanged. Runtime status is incomplete because the confirmed deletion is still
-pending. P5's earlier Interpreter-confirmation ordering is not satisfied; this
-is not a claim of complete policy compliance. The preceding six-call baseline
-and its separate direct service probe are labeled independently.
+pending. The user subsequently clarified P5 to permit plan drafting before
+confirmation; this ordering is no longer assessed as a violation. Confirmation
+and successful authorization are both required before execution, in either order.
+The observed wrong-password stop satisfies that requirement. The preceding
+six-call baseline and its separate direct service probe are labeled independently.

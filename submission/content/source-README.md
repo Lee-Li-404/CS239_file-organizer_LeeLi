@@ -112,3 +112,7 @@ The user must explicitly permit the named deletion and confirm it; the agent
 must obtain Runtime authorization for its operation ID. A wrong password must
 stop the action. These are prompt policies; tools do not mechanically gate
 commands. Source snapshots in older traces retain the policies used at the time.
+
+Planner may draft and register a plan before confirmation. Confirmation and
+successful operation-bound password authorization can occur in either order,
+but both must precede execution. Wrong credentials stop the affected operation.

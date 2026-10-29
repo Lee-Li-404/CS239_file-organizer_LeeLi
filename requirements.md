@@ -18,7 +18,7 @@ authorization, user confirmation, and local replay of agent communication.
 | R3 | Classify documents into Papers, Courses, Receipts, Sensitive, or Other using actual requested metadata and bounded anonymized content when needed. |
 | R4 | Planner relays evidence into each agent's appropriate context; unresolved trace IDs do not replace the evidence another agent needs. |
 | R5 | Register move/delete operations with source, destination for moves, reason, and evidence references in versioned plans with content hashes, a digest, and pending-operation status. |
-| R6 | Expose explicit confirmation and synthetic authorization capabilities; record responses and operation-bound tokens without logging entered passwords. |
+| R6 | Permit plan drafting before confirmation; require both explicit plan confirmation and successful operation-bound authorization before destructive execution, in either order. Record responses without logging entered passwords. |
 | R7 | Support a cross-boundary sharing decision through the LLM Arbiter, followed by the required authorization and confirmation workflow. |
 | R8 | Preserve original contents and every copy unless the user explicitly permits a named deletion; require confirmation and authorization for destructive operations. |
 | R9 | Record full visible model requests/responses, actions, inter-agent messages, tool observations, plan state, and a terminal outcome in JSONL. |
