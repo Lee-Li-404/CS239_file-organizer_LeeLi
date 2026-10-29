@@ -10,12 +10,18 @@ This table indexes the policies above; it adds no independent requirements.
 | Arbiter | send_message; judge boundaries | Approval precedes inclusion of cross-boundary operations in a plan; apply specified allow/deny rules (P3) | Receive only scopes, requesting user and operation type; no filenames/content/classification reasoning (P3) |
 | Executor | list_files, run_command, anonymize_file, upload_file, get_plan, send_message to Planner | Preview is evidence-only; retrieve current confirmed plan; match digest/pending IDs/tokens; pre-check, execute the confirmed operation, observe its result (P5, P8, P9) | Gather only requested evidence inside workspace; anonymize before upload; return evidence to Planner; no credential disclosure (P1, P4, P6, P8) |
 
+P10 additionally requires Planner to include a recoverable trash step in deletion
+plans and Executor to perform that step before permanent removal. P11 applies to
+every agent: no user may gain information from or edit another user's private
+workspace, including through summaries or other indirect outputs. Planner's
+internal inventory visibility does not authorize disclosure or cross-user use.
+
 ## Lifecycle order
 
 Intent → requested evidence → grounded classification → any required Arbiter
 approval → registered plan → explicit plan confirmation and operation-specific
 authorization where required (either order, both before execution) → Executor
 retrieves/checks plan →
-permitted moves or deletions → evidence-backed result. Preview
+permitted moves or recoverable trash before permanent deletion → evidence-backed result. Preview
 ends with evidence and proposals. Denial or missing prerequisites stops the
 relevant action. A revised plan needs fresh confirmation (P3–P5, P8–P9).

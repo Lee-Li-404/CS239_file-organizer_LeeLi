@@ -27,7 +27,7 @@ Historical evidence retains its own executed source snapshot independently of
 the current implementation.
 
 Root requirements.md and policies.md now describe the current five-agent Phase 1
-application. The public Phase 1 repository also includes four real-model traces
+application. The public Phase 1 repository also includes five real-model traces
 and an MIT license. The older project_plan.md and docs/episodes/ remain local
 history and are excluded from publication. Main source folders remain in place
 to preserve existing commands and links.

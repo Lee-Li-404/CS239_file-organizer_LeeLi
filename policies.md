@@ -57,6 +57,22 @@ cross-boundary, or destructive operations must carry the authorization token for
 those operation IDs. Revised plans require fresh confirmation. Agents must stop
 when required approval, authorization, or confirmation is missing or denied.
 
+P10. Recoverable deletion: Executor must move files to a recoverable trash location
+before any permanent removal. Planner must include this trash step in deletion
+plans. Moving files to trash still requires the deletion permission, confirmation,
+and authorization specified in P4, P5, and P9.
+
+P11. Private workspace isolation: A user must not gain information from or modify
+another user's private workspace, directly or through any agent or tool. Agents
+must not inspect another user's private files on the requesting user's behalf,
+disclose or infer their existence, names, paths, metadata, hashes, contents, or
+classifications in user-visible responses or results, or create, change, move,
+overwrite, or delete files in that workspace. Summaries, comparisons, duplicate
+checks, and shared outputs must not indirectly reveal that private information.
+The requesting user's permission or password cannot authorize access to another
+user's private workspace. Planner's internal workspace-wide inventory under P2
+does not permit disclosing or using another user's information for that request.
+
 
 ## Per-agent boundary map
 
@@ -70,12 +86,18 @@ This table indexes the policies above; it adds no independent requirements.
 | Arbiter | send_message; judge boundaries | Approval precedes inclusion of cross-boundary operations in a plan; apply specified allow/deny rules (P3) | Receive only scopes, requesting user and operation type; no filenames/content/classification reasoning (P3) |
 | Executor | list_files, run_command, anonymize_file, upload_file, get_plan, send_message to Planner | Preview is evidence-only; retrieve current confirmed plan; match digest/pending IDs/tokens; pre-check, execute the confirmed operation, observe its result (P5, P8, P9) | Gather only requested evidence inside workspace; anonymize before upload; return evidence to Planner; no credential disclosure (P1, P4, P6, P8) |
 
+P10 additionally requires Planner to include a recoverable trash step in deletion
+plans and Executor to perform that step before permanent removal. P11 applies to
+every agent: no user may gain information from or edit another user's private
+workspace, including through summaries or other indirect outputs. Planner's
+internal inventory visibility does not authorize disclosure or cross-user use.
+
 ## Lifecycle order
 
 Intent → requested evidence → grounded classification → any required Arbiter
 approval → registered plan → explicit plan confirmation and operation-specific
 authorization where required (either order, both before execution) → Executor
 retrieves/checks plan →
-permitted moves or deletions → evidence-backed result. Preview
+permitted moves or recoverable trash before permanent deletion → evidence-backed result. Preview
 ends with evidence and proposals. Denial or missing prerequisites stops the
 relevant action. A revised plan needs fresh confirmation (P3–P5, P8–P9).

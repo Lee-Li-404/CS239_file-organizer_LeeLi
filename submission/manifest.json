@@ -6,13 +6,13 @@
   "archives": [
     {
       "filename": "Lee-Li-file-organizer-006997204-requirements.tar.gz",
-      "sha256": "630b6957dea47676a591bd6d192103826ec2187eecec015a8723217c58eaa687",
-      "bytes": 10271
+      "sha256": "c2ba90496c15ba67886288db3159f38b7a78a69f58b639a9a99116a3f643bc1f",
+      "bytes": 10694
     },
     {
       "filename": "Lee-Li-file-organizer-006997204-whole.tar.gz",
-      "sha256": "f9a955b8e7efb12926de915f3d740bd2babae1cc1773dc0e606f5a7023508a21",
-      "bytes": 1805648
+      "sha256": "8c598101c4046278996fe6c1753b48641affe780458f3d920e99c46c3a9f0cf7",
+      "bytes": 1835248
     }
   ],
   "configured_api_keys_absent": true

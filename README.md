@@ -9,6 +9,8 @@ agent has its own history. Messages and tool calls are recorded for inspection i
 a local chat-style viewer with group chat, individual agent traces, and expandable
 compact tool calls.
 
+![The five-agent team: Interpreter understands the request, Planner coordinates, Analyzer classifies files, Arbiter reviews folder boundaries, and Executor inspects and moves files.](docs/images/five-agent-team.png)
+
 **There is no safety-enforcing framework.** All five agents receive the same nine
 tools. Business policies are prompt instructions from `file_organizer/policy.md`;
 code does not enforce role permissions, message isolation, workspace boundaries,
@@ -23,7 +25,7 @@ uses disposable synthetic files; the command runner is not an OS sandbox.
 | Detailed permission, capability, lifecycle, information-flow and isolation policies | [policies.md](policies.md) |
 | Canonical policy actually loaded into every system prompt | [file_organizer/policy.md](file_organizer/policy.md) |
 | Five-agent implementation and actual prompts | [file_organizer/](file_organizer/) |
-| Four real-model traces, scenarios and observed policy findings | [traces/README.md](traces/README.md) |
+| Five real-model traces, scenarios and observed policy findings | [traces/README.md](traces/README.md) |
 | Actual agent prompt/tool descriptions and archive layout | [submission/README.md](submission/README.md) |
 | Offline regression tests | [tests/](tests/), [file_organizer/tests/](file_organizer/tests/) |
 | License | [LICENSE](LICENSE) |
@@ -90,7 +92,9 @@ node --test tests/test_trace_core.cjs
 
 The normal fixture contains ten files, including a credentials file to leave in
 place and a team summary to move to shared. The fourth scenario supplies a
-correct synthetic password for an approved sharing move.
+correct synthetic password for an approved sharing move. The fifth scenario uses
+Alice's exact request to copy Bob's first private file and records the agents'
+refusal without filesystem access or private evidence disclosure.
 
 The trace collector makes billable real-model calls on synthetic files and refuses
 to overwrite existing submitted traces. Archive the existing scenario folders

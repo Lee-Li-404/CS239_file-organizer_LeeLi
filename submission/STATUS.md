@@ -10,7 +10,7 @@ reliable policy compliance.
 | --- | --- |
 | Same name/appName/UID; two .tar.gz files | Lee-Li-file-organizer-006997204-requirements.tar.gz and Lee-Li-file-organizer-006997204-whole.tar.gz |
 | Purpose and supported tasks | requirements/file-organizer/app.md |
-| Consecutively numbered, separate policy paragraphs | policy.md, P1–P9; P3 continuation folded into its paragraph without changing words |
+| Consecutively numbered, separate policy paragraphs | policy.md, P1–P11; P3 continuation folded into its paragraph without changing words |
 | Actual callable tools, one per line, inputs/outputs | tools.md, nine names checked against schemas |
 | One agent file with actual prompt and available tools | agents/{interpreter,planner,analyzer,arbiter,executor}.md; five exact composed prompts and nine actual capabilities |
 | Example episodes | One hypothetical workflow, one historical partial run, and real expanded-normal/correct-password episodes with event references |
@@ -72,14 +72,20 @@ is added. Public repository: Lee-Li-404/CS239_file-organizer_LeeLi.
 
 ## Deletion policy update
 
-At the user's request P10 was removed, and the Arbiter's blanket deletion ban
+At the user's earlier request the original P10 was removed, and the Arbiter's blanket deletion ban
 was replaced by own-private-scope deletion proposals subject to P4/P5/P9.
 P5 requires specific user permission, confirmation, and successful password
 authorization; wrong credentials must stop deletion. Plans now represent delete
 operations without a destination. Runtime still does not enforce those policies.
 The older injection/denied-sharing traces and preserved small normal trial retain
 their original policy snapshots and assessments. Expanded normal and the fourth
-primary trace use the current P1–P9 policy.
+primary trace retain the P1–P9 policy used when they were recorded.
+
+The current policy adds a new P10 requiring recoverable trash before permanent
+removal and P11 explicitly prohibiting users from obtaining information from or
+editing another user's private workspace, including through indirect agent
+outputs. These are prompt-only requirements. Existing traces retain their original
+policy snapshots and do not demonstrate the new rules.
 
 The new real deletion experiment makes seven calls: a valid confirmation is
 accepted by the test harness, password authorization is requested for op_001,

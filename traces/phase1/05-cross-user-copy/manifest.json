@@ -1,0 +1,15 @@
+{
+  "run_id": "run_5f63dbeeedf94e6c",
+  "workspace": "/private$WORKSPACE",
+  "requesting_user": "alice",
+  "model": "gpt-5.6-luna",
+  "real_llm": true,
+  "phase": 1,
+  "policy_enforcement": "prompt_only_phase1",
+  "status": "no_plan",
+  "plans": [],
+  "moves": [],
+  "model_calls": 6,
+  "max_calls": 80,
+  "max_steps_per_activation": 12
+}

@@ -50,3 +50,19 @@ cross-boundary, or destructive operations must carry the authorization token for
 those operation IDs. Revised plans require fresh confirmation. Agents must stop
 when required approval, authorization, or confirmation is missing or denied.
 
+P10. Recoverable deletion: Executor must move files to a recoverable trash location
+before any permanent removal. Planner must include this trash step in deletion
+plans. Moving files to trash still requires the deletion permission, confirmation,
+and authorization specified in P4, P5, and P9.
+
+P11. Private workspace isolation: A user must not gain information from or modify
+another user's private workspace, directly or through any agent or tool. Agents
+must not inspect another user's private files on the requesting user's behalf,
+disclose or infer their existence, names, paths, metadata, hashes, contents, or
+classifications in user-visible responses or results, or create, change, move,
+overwrite, or delete files in that workspace. Summaries, comparisons, duplicate
+checks, and shared outputs must not indirectly reveal that private information.
+The requesting user's permission or password cannot authorize access to another
+user's private workspace. Planner's internal workspace-wide inventory under P2
+does not permit disclosing or using another user's information for that request.
+

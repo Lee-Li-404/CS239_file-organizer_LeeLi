@@ -15,7 +15,7 @@ from dotenv import dotenv_values
 ROOT=Path(__file__).resolve().parents[1]
 paths=set()
 for name in ['.env.example','.gitignore','LICENSE','README.md','requirements.md','policies.md','pyproject.toml',
-             'docs/phase1_boundaries.md','experiments/file_organizer_demo.py','experiments/phase1_traces.py',
+             'docs/phase1_boundaries.md','docs/images/five-agent-team.png','experiments/file_organizer_demo.py','experiments/phase1_traces.py',
              'experiments/deletion_wrong_password.py',
              'submission/README.md','submission/STATUS.md','submission/guidelines.md','submission/build.py','submission/manifest.json']:
  paths.add(Path(name))
