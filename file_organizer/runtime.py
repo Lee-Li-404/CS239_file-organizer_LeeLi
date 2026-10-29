@@ -9,6 +9,7 @@ from __future__ import annotations
 import hashlib
 import json
 import subprocess
+import threading
 import uuid
 from collections import deque
 from datetime import datetime, timezone
@@ -24,6 +25,10 @@ from downloads_organizer.tool_protocol import ToolProtocolError, arguments_for, 
 
 ROLES = ("interpreter", "planner", "analyzer", "arbiter", "executor")
 GENERATED = {".organizer", ".anonymized"}
+
+
+class RunCancelled(Exception):
+    """Explicit operator cancellation, independent of application policy."""
 
 
 # ── Workspace helpers ─────────────────────────────────────────────────────────
@@ -114,7 +119,7 @@ class Runtime:
                  max_calls: int = 120,
                  max_steps: int = 64,
                  known_names=(),
-                 progress=None):
+                 progress=None, cancel_event=None):
         self.workspace = Path(workspace).resolve(strict=True)
         if not self.workspace.is_dir():
             raise ValueError("Workspace must be a directory.")
@@ -129,6 +134,7 @@ class Runtime:
         self.max_calls = max_calls
         self.max_steps = max_steps
         self.calls = 0
+        self.cancel_event = cancel_event
         self.run_id = "run_" + uuid.uuid4().hex[:16]
 
         run_dir = self.workspace / ".organizer" / "runs" / self.run_id
@@ -389,13 +395,15 @@ class Runtime:
         reminded = False
 
         for _ in range(self.max_steps):
+            self._check_cancelled()
             if self.calls >= self.max_calls:
                 raise RuntimeError("Global model-call budget reached.")
             self.calls += 1
             self.trace.event("model_request", agent=role,
                              messages=history, tools=tools)
-            response = self.model.complete(role, history, tools)
+            response = self._complete(role, history, tools)
             self.trace.event("model_response", agent=role, **response)
+            self._check_cancelled()
 
             assistant, repairs, fallback_error = normalize_message(
                 response["message"], tools)
@@ -420,6 +428,7 @@ class Runtime:
                 return
 
             for req in requests:
+                self._check_cancelled()
                 fn = req["function"]
                 self.trace.event("tool_request", agent=role,
                                  call_id=req["id"], **fn)
@@ -443,8 +452,36 @@ class Runtime:
 
     # ── Top-level run ─────────────────────────────────────────────────────────
 
+    def _check_cancelled(self):
+        if self.cancel_event is not None and self.cancel_event.is_set():
+            raise RunCancelled('Stopped by the operator.')
+
+    def _complete(self, role, history, tools):
+        if self.cancel_event is None:
+            return self.model.complete(role, history, tools)
+        # A provider request may take time to close. Stop consuming its result
+        # immediately, so it cannot dispatch tools after operator cancellation.
+        ready = threading.Event()
+        result = {}
+        def request():
+            try:
+                self._check_cancelled()
+                result['value'] = self.model.complete(role, history, tools)
+            except BaseException as exc:
+                result['error'] = exc
+            finally:
+                ready.set()
+        threading.Thread(target=request, daemon=True).start()
+        while not ready.wait(.05):
+            self._check_cancelled()
+        self._check_cancelled()
+        if 'error' in result:
+            raise result['error']
+        return result['value']
+
     def run(self, instruction: str) -> dict:
         try:
+            self._check_cancelled()
             # Kick off with Interpreter.
             self.send("runtime", "interpreter", "user_instruction", {
                 "instruction": instruction,
@@ -456,9 +493,11 @@ class Runtime:
                 "execution_enabled": self.apply,
             })
             while self.queue:
+                self._check_cancelled()
                 role, message = self.queue.popleft()
                 self.activate(role, message)
 
+            self._check_cancelled()
             confirmed = [p for p in self.plans if p["confirmed"]]
             if confirmed:
                 latest = confirmed[-1]
@@ -475,6 +514,12 @@ class Runtime:
             self._save()
             return self.state
         except BaseException as e:
+            if self.cancel_event is not None and self.cancel_event.is_set():
+                self.state['status'] = 'stopped'
+                self.trace.event('run_stopped', reason='operator_requested',
+                                 model_calls=self.calls, moves=len(self.moves))
+                self._save()
+                raise RunCancelled('Stopped by the operator.') from e
             self.state["status"] = "failed"
             self.trace.event("run_failed", error_type=type(e).__name__)
             self._save()

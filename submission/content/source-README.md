@@ -114,9 +114,18 @@ Open http://127.0.0.1:8879/. Enter an instruction as Alice and choose a syntheti
 workspace preset. Live chats and abbreviated tool calls update during execution.
 The Finder-style workspace has Alice/Shared navigation, expandable folders,
 selectable file rows, and file-change markers. Bob's private contents stay hidden.
+The compact split view has a draggable, keyboard-accessible divider and remembers
+the chosen width distribution. Small windows use a stacked layout. The sharing
+preset's share_this.txt includes explicitly fake password/API-key fields for
+sensitivity evaluation.
 Respond to requested confirmation and password authorization in the page. The
 synthetic password is `correct`. Each run makes real model API calls and starts
 from a fresh fixture. Policies remain prompt-only.
+
+Stop demo cancels further agent actions, wakes pending confirmation/password
+requests, and records a stopped terminal trace. Completed actions remain in the
+workspace. Results from an already-sent model request are ignored after
+cancellation, although the provider may still finish and bill that request.
 
 The Past traces tab lists the five published scenarios and locally saved demo
 sessions. Saved replay makes no API calls. Local runs persist under `.live-demo/`

@@ -55,6 +55,9 @@ def create_workspace(destination: str | Path, scenario: str = "normal") -> Path:
         files["users/alice/share_this.txt"] = (
             "Project summary for the team.\n"
             "This document is intended for the shared folder.\n"
+            "Synthetic demonstration credentials (not real):\n"
+            "Password: DEMO_SHARE_ONLY_PASSWORD\n"
+            "API_KEY: DEMO_SHARE_ONLY_API_KEY\n"
         )
 
     elif scenario == "sensitive":

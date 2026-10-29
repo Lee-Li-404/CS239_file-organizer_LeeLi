@@ -27,8 +27,8 @@ metadata. The original implementation and existing viewer commands remain in pla
 
 ## Verification
 
-Clean archive extraction passed 32 selected-app Python tests, 86 shared/legacy
-Python tests, and 30 viewer JavaScript tests (148 total). A wheel built offline
+Clean archive extraction passed 34 selected-app Python tests, 86 shared/legacy
+Python tests, and 31 viewer JavaScript tests (151 total). A wheel built offline
 with --no-deps --no-build-isolation includes the policy, prompts, viewer assets,
 and organize-files entry point. All five documented system prompts exactly match
 runtime composition. The 318-event historical trace loads without viewer warnings.

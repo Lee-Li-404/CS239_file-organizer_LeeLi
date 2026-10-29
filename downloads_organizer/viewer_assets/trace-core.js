@@ -1,7 +1,7 @@
 /* Shared browser/Node parser. Input strings remain data, never markup or code. */
 (function (root) {
   'use strict';
-  const known = new Set(['run_started','run_finished','run_failed','agent_message','model_request','model_response',
+  const known = new Set(['run_started','run_finished','run_failed','run_stopped','agent_message','model_request','model_response',
     'tool_request','tool_result','plan_proposed','confirmation','plan_review_feedback','move_intent','move_completed',
     'analysis_reused','execution_resumed','execution_recovered','plan_validation_failed','pending_work_limit','agent_reminder',
     'tool_call_compatibility','tool_protocol_stopped']);
@@ -54,6 +54,7 @@
       case 'execution_resumed': return `Execution resumed · ${e.pending_operation_ids?.length ?? '?'} pending`;
       case 'run_finished': return `Run ${e.status || 'finished'}`;
       case 'run_failed': return `Run failed · ${e.error_type || 'unspecified'}`;
+      case 'run_stopped': return 'Run stopped by user';
       default: return e.kind.replaceAll('_', ' ');
     }
   }
@@ -163,9 +164,9 @@
       usageComplete:true, statuses:[], agents, warnings:0};
     for (const run of runs) {
       result.events += run.events.length; result.warnings += run.warnings.length;
-      const finished = [...run.events].reverse().find(e => ['run_finished','run_failed'].includes(e.kind));
+      const finished = [...run.events].reverse().find(e => ['run_finished','run_failed','run_stopped'].includes(e.kind));
       const manifest = run.sidecars['manifest.json'];
-      result.statuses.push(finished ? (finished.kind === 'run_failed' ? 'failed' : finished.status || 'finished') : manifest?.status || 'unfinished');
+      result.statuses.push(finished ? (finished.kind === 'run_failed' ? 'failed' : finished.kind === 'run_stopped' ? 'stopped' : finished.status || 'finished') : manifest?.status || 'unfinished');
       const cost = number(run.sidecars['cost_estimate.json']?.estimated_usd);
       if (cost !== null) { result.cost = (result.cost || 0) + cost; result.costRuns++; }
       let requests = 0, responses = 0, complete = 0;

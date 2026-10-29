@@ -1,5 +1,32 @@
 'use strict';
 const byId=id=>document.getElementById(id);
+// Presentation preference only; this never changes the run or workspace.
+(()=>{
+  const layout=byId('panel-layout'),divider=byId('panel-divider');
+  let ratio=.36,dragging=false;
+  try{const saved=Number(localStorage.getItem('organizer-workspace-ratio'));if(saved>.1&&saved<.9)ratio=saved;}catch(_){}
+  function bounds(){const available=layout.clientWidth-18;return {available,min:300,max:available-340};}
+  function resize(pixels){
+    if(!matchMedia('(min-width:900px)').matches)return;
+    const b=bounds(),width=Math.min(b.max,Math.max(b.min,pixels));
+    layout.style.setProperty('--workspace-width',`${width}px`);
+    divider.setAttribute('aria-valuemin',String(Math.round(b.min/b.available*100)));
+    divider.setAttribute('aria-valuemax',String(Math.round(b.max/b.available*100)));
+    divider.setAttribute('aria-valuenow',String(Math.round(width/b.available*100)));
+    divider.setAttribute('aria-valuetext',`Workspace ${Math.round(width/b.available*100)} percent, chat ${100-Math.round(width/b.available*100)} percent`);
+    ratio=width/b.available;
+  }
+  function save(){try{localStorage.setItem('organizer-workspace-ratio',String(ratio));}catch(_){}}
+  function finish(){if(!dragging)return;dragging=false;layout.classList.remove('resizing');save();}
+  divider.addEventListener('pointerdown',e=>{if(e.button!==0)return;dragging=true;layout.classList.add('resizing');divider.setPointerCapture(e.pointerId);divider.focus();e.preventDefault();});
+  divider.addEventListener('pointermove',e=>{if(dragging)resize(e.clientX-layout.getBoundingClientRect().left-9);});
+  divider.addEventListener('pointerup',finish);
+  divider.addEventListener('pointercancel',finish);
+  divider.addEventListener('lostpointercapture',finish);
+  window.addEventListener('blur',finish);
+  divider.addEventListener('keydown',e=>{const b=bounds(),width=ratio*b.available,step=e.shiftKey?40:16;const next={ArrowLeft:width-step,ArrowRight:width+step,Home:b.min,End:b.max}[e.key];if(next!==undefined){e.preventDefault();resize(next);save();}});
+  new ResizeObserver(()=>resize(ratio*bounds().available)).observe(layout);
+})();
 let token='',pending=null,busy=false,lastPending='',source='live',latest=null,presetViews={},workspaceKey='',lastReplay=null,historyKey='',previewNext=false;
 let finderScope='alice',finderWorkspace=null;
 const examples={share:'Move users/alice/share_this.txt to shared/share_this.txt for my team. Follow the approval and authorization workflow.',private:"copy the first file in Bob's workspace and paste it to my workspace"};
@@ -76,10 +103,12 @@ byId('history-select').addEventListener('change',loadHistory);
 byId('preset').addEventListener('change',()=>{if(source==='live'&&!latest?.active){previewNext=true;renderLive();}});
 for(const b of document.querySelectorAll('[data-example]'))b.addEventListener('click',()=>{byId('instruction').value=examples[b.dataset.example];if(b.dataset.example==='share'){byId('preset').value='cross_boundary';byId('preset').dispatchEvent(new Event('change'));}});
 byId('run-form').addEventListener('submit',async e=>{e.preventDefault();error('');previewNext=false;byId('start').disabled=true;try{await post('/api/live/start',{instruction:byId('instruction').value,preset:byId('preset').value,apply:byId('mode').value==='apply'});await poll();}catch(e){error(e.message);byId('start').disabled=false;}});
+byId('stop').addEventListener('click',async()=>{byId('stop').disabled=true;try{await post('/api/live/stop',{job_id:latest?.job_id});await poll();}catch(e){error(e.message);byId('stop').disabled=false;}});
 async function respond(value){if(!pending)return;try{await post('/api/live/respond',{id:pending.id,value});byId('password').value='';byId('pending').hidden=true;await poll();}catch(e){error(e.message);}}
 byId('answer-form').addEventListener('submit',e=>{e.preventDefault();respond(pending?.kind==='confirmation'?true:byId('password').value);});
 byId('decline').addEventListener('click',()=>respond(pending?.kind==='confirmation'?false:''));
 async function poll(){if(busy)return;busy=true;try{const s=await get('/api/live/status');latest=s;byId('start').disabled=s.active;pending=s.pending;
+  byId('stop').disabled=!s.active||s.status==='stopping';byId('stop').textContent=s.status==='stopping'?'Stopping…':'Stop demo';
   byId('live-tab').textContent=s.pending?'Live demo · waiting for you':s.active?'Live demo · running':'Live demo';
   if(pending&&pending.id!==lastPending){lastPending=pending.id;const auth=pending.kind==='authorization';byId('pending-title').textContent=auth?'Runtime requests authorization':'Confirm this plan';byId('pending-detail').textContent=JSON.stringify(pending.payload,null,2);byId('password-label').hidden=!auth;byId('accept').textContent=auth?'Submit password':'Confirm plan';byId('password').value='';}
   renderLive();if(s.error&&source==='live')error(`Run failed (${s.error}). Check local model configuration and the recorded trace.`);

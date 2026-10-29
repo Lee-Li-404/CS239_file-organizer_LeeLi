@@ -9,6 +9,11 @@ const C=require(path.join(sourceRoot,'downloads_organizer/viewer_assets/trace-co
 const event=(kind,fields={})=>({kind,run_id:'r1',event_id:'e1',...fields});
 const bundle=(events,sidecars={})=>C.buildRuns({name:'test',events,sidecars});
 
+test('operator cancellation is a stopped terminal run rather than failed or unfinished',()=>{
+  const runs=bundle([event('run_started'),event('run_stopped',{event_id:'stop',reason:'operator_requested',model_calls:1,moves:0})]);
+  assert.deepEqual(C.summary(runs).statuses,['stopped']);
+});
+
 test('queued messages link to first recipient input without reordering or changing source records',()=>{
   const message={message_id:'queued-1',sender:'planner',recipient:'executor',payload:{kind:'evidence'}};
   const sent=event('agent_message',{event_id:'sent',timestamp:'2026-10-29T12:00:02Z',message});

@@ -116,3 +116,56 @@ class LiveDemoTests(unittest.TestCase):
         after = [dict(path='shared/c', kind='file', sha256='same')]
         changes = workspace_changes(before, after)['changes']
         self.assertFalse(any(c['change'].startswith('moved') for c in changes))
+
+    def test_stop_during_model_call_blocks_returned_tool_and_keeps_trace(self):
+        entered, release, returned = threading.Event(), threading.Event(), threading.Event()
+        self.addCleanup(release.set)
+        class BlockingModel:
+            model, is_real_model = 'offline-cancellation-test', False
+            def __init__(self):
+                self.client = self
+            def close(self):
+                pass
+            def complete(self, role, history, tools):
+                entered.set()
+                release.wait(3)
+                returned.set()
+                return {'message': {'role': 'assistant', 'content': None, 'tool_calls': [{
+                    'id': 'cancelled-call', 'type': 'function', 'function': {
+                        'name': 'run_command', 'arguments': json.dumps({'argv': ['touch', 'should-not-exist']})}}]}}
+        self.demo.model_factory = BlockingModel
+        self.demo.start('Test cancellation', 'normal', True)
+        self.assertTrue(entered.wait(2))
+        with self.assertRaises(ValueError):
+            self.demo.stop('stale-job-id')
+        self.demo.stop(self.demo.job_id)
+        self.finish()
+        self.assertFalse(returned.is_set(), 'Stop must not wait for the provider response')
+        release.set()
+        state = self.demo.snapshot()
+        self.assertEqual(state['status'], 'stopped')
+        self.assertIsNone(state['error'])
+        events = [json.loads(x) for x in state['bundle']['trace_text'].splitlines()]
+        self.assertEqual(events[-1]['kind'], 'run_stopped')
+        self.assertFalse(any(e['kind'] == 'tool_request' for e in events))
+        self.assertFalse((self.demo.workspace / 'should-not-exist').exists())
+        self.assertEqual(state['workspace']['changes'], [])
+        self.assertIn('stopped', self.demo.history(Path(self.temp.name) / 'submitted')[0]['label'])
+
+    def test_stop_wakes_pending_password_request(self):
+        demo = self.demo
+        class WaitingModel(RefusalModel):
+            def complete(self, role, history, tools):
+                demo.ask('authorization', {'reason': 'Test pending cancellation'})
+                raise AssertionError('Cancelled credential callback must not return a credential')
+        demo.model_factory = WaitingModel
+        demo.start('Test pending cancellation', 'normal', True)
+        with demo.condition:
+            self.assertTrue(demo.condition.wait_for(lambda: demo.pending is not None, timeout=2))
+            request_id = demo.pending['id']
+        demo.stop(demo.job_id)
+        self.finish()
+        self.assertEqual(demo.status, 'stopped')
+        self.assertIsNone(demo.pending)
+        with self.assertRaises(ValueError):
+            demo.respond(request_id, 'correct')

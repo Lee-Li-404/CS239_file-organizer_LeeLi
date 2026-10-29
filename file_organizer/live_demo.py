@@ -13,7 +13,7 @@ from urllib.parse import parse_qs, urlsplit
 from downloads_organizer.viewer import ASSETS, ViewerHandler, load_run
 from http.server import ThreadingHTTPServer
 from .fixtures import create_workspace
-from .runtime import Runtime, digest, inventory
+from .runtime import RunCancelled, Runtime, digest, inventory
 
 PRESETS = {
     'normal': 'Organize Alice’s files',
@@ -92,6 +92,9 @@ class LiveDemo:
         self.model_factory = model_factory
         self.condition = threading.Condition()
         self.runtime = None
+        self.model = None
+        self.cancel = threading.Event()
+        self.job_id = None
         self.active = False
         self.status = 'ready'
         self.error = None
@@ -115,6 +118,9 @@ class LiveDemo:
             if self.active:
                 raise ValueError('A demo is already running.')
             root = self.directory / uuid.uuid4().hex
+            self.job_id = root.name
+            self.cancel = threading.Event()
+            self.model = None
             self.workspace = create_workspace(root / 'workspace', preset)
             self.before_visible = visible_workspace(self.workspace)
             self.runtime = None
@@ -125,13 +131,39 @@ class LiveDemo:
             self.status = 'starting'
             threading.Thread(target=self._run, args=(instruction, apply, root), daemon=True).start()
 
+    def stop(self, job_id):
+        with self.condition:
+            if not self.active or job_id != self.job_id:
+                raise ValueError('This demo is no longer running.')
+            self.cancel.set()
+            self.status = 'stopping'
+            self.pending = None
+            model = self.model
+            self.condition.notify_all()
+        if model is not None:
+            threading.Thread(target=lambda: self._close_model(model), daemon=True).start()
+
+    @staticmethod
+    def _close_model(model):
+        try:
+            if getattr(model, 'client', None):
+                model.client.close()
+        except Exception:
+            pass
+
     def ask(self, kind, payload):
         with self.condition:
+            if self.cancel.is_set():
+                raise RunCancelled('Stopped by the operator.')
             request_id = uuid.uuid4().hex
             self.pending = dict(id=request_id, kind=kind, payload=payload)
             self.answer = None
             self.condition.notify_all()
-            answered = self.condition.wait_for(lambda: self.answer is not None, timeout=600)
+            answered = self.condition.wait_for(lambda: self.answer is not None or self.cancel.is_set(), timeout=600)
+            if self.cancel.is_set():
+                self.pending = None
+                self.answer = None
+                raise RunCancelled('Stopped by the operator.')
             value = self.answer if answered else (False if kind == 'confirmation' else '')
             self.pending = None
             self.answer = None
@@ -151,14 +183,19 @@ class LiveDemo:
 
     def _run(self, instruction, apply, root):
         model = None
+        runtime = None
+        before = None
         try:
             if self.model_factory is None:
                 from .models import OpenAIModel
                 model = OpenAIModel(self.env_file)
             else:
                 model = self.model_factory()
+            with self.condition:
+                self.model = model
             runtime = Runtime(self.workspace, model, requesting_user='alice', apply=apply,
                 max_calls=120, max_steps=12,
+                cancel_event=self.cancel,
                 confirm=lambda plan: self.ask('confirmation', plan),
                 authorize=lambda reason, ids: self.ask('authorization', dict(reason=reason, operation_ids=ids)))
             before = {r['path']: digest(self.workspace / r['path']) for r in inventory(self.workspace)}
@@ -173,7 +210,7 @@ class LiveDemo:
             runtime.trace.save('workspace_before.json', self.before_visible)
             with self.condition:
                 self.runtime = runtime
-                self.status = 'running'
+                self.status = 'stopping' if self.cancel.is_set() else 'running'
             runtime.run(instruction)
             after = {r['path']: digest(self.workspace / r['path']) for r in inventory(self.workspace)}
             runtime.trace.save('demo_summary.json', dict(status=runtime.state['status'],
@@ -183,11 +220,18 @@ class LiveDemo:
         except Exception as exc:
             # Never return provider exception text, which may contain private configuration.
             with self.condition:
-                self.error = type(exc).__name__
-                self.status = 'failed'
+                self.error = None if self.cancel.is_set() else type(exc).__name__
+                self.status = 'stopped' if self.cancel.is_set() else 'failed'
         finally:
-            if model is not None and getattr(model, 'client', None):
-                model.client.close()
+            if runtime is not None and before is not None:
+                after = {r['path']: digest(self.workspace / r['path']) for r in inventory(self.workspace)}
+                runtime.trace.save('demo_summary.json', dict(status=self.status,
+                    before=before, after=after, model_calls=runtime.calls))
+            if model is not None:
+                if self.cancel.is_set():
+                    threading.Thread(target=lambda: self._close_model(model), daemon=True).start()
+                else:
+                    self._close_model(model)
             with self.condition:
                 self.active = False
                 self.pending = None
@@ -197,7 +241,7 @@ class LiveDemo:
         with self.condition:
             runtime = self.runtime
             result = dict(active=self.active, status=self.status, error=self.error,
-                          pending=self.pending, bundle=None, files=[])
+                          pending=self.pending, bundle=None, files=[], job_id=self.job_id)
             workspace = self.workspace
             before_visible = self.before_visible
         if runtime:
@@ -324,6 +368,8 @@ class LiveHandler(ViewerHandler):
             route = urlsplit(self.path).path
             if route == '/api/live/start':
                 self.server.demo.start(data.get('instruction'), data.get('preset'), data.get('apply'))
+            elif route == '/api/live/stop':
+                self.server.demo.stop(data.get('job_id'))
             elif route == '/api/live/respond':
                 self.server.demo.respond(data.get('id'), data.get('value'))
             else:

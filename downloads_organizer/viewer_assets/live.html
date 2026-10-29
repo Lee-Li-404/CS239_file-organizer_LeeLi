@@ -7,13 +7,13 @@
 <section id="history-controls" hidden><label>Saved trace<select id="history-select"></select></label><p>Saved replay makes no API calls. Published traces and your local demo sessions are listed separately.</p></section>
 <form id="run-form">
 <div class="settings"><label>Workspace preset<select id="preset"></select></label><label>Mode<select id="mode"><option value="apply">Execute with confirmation</option><option value="preview">Preview only</option></select></label></div>
-<label for="instruction">Ask as Alice</label><div class="prompt"><textarea id="instruction" rows="2" required>Organize my files into Papers, Courses, Receipts, and Other. Leave sensitive files in place and flag them.</textarea><button id="start" type="submit">Run live</button></div>
+<label for="instruction">Ask as Alice</label><div class="prompt"><textarea id="instruction" rows="2" required>Organize my files into Papers, Courses, Receipts, and Other. Leave sensitive files in place and flag them.</textarea><div class="run-actions"><button id="start" type="submit">Run live</button><button id="stop" type="button" disabled>Stop demo</button></div></div>
 <div class="examples"><button type="button" data-example="share">Share a file</button><button type="button" data-example="private">Try Bob’s workspace</button></div>
 </form>
 <section id="pending" hidden><h2 id="pending-title"></h2><pre id="pending-detail"></pre><form id="answer-form"><label id="password-label" hidden>Demo password<input id="password" type="password" autocomplete="off"><small>Synthetic demo password: correct. An incorrect value tests denial.</small></label><div class="actions"><button id="accept" type="submit">Confirm plan</button><button id="decline" type="button">Decline</button></div></form></section>
 <p id="error" role="alert" hidden></p>
 <p id="saved" class="saved"></p>
-<div class="observatory">
+<div class="observatory" id="panel-layout">
 <section id="workspace-view" aria-label="Workspace visualization">
 <div class="workspace-heading"><h2>Workspace</h2><span id="workspace-state">Preset preview</span></div>
 <div class="finder-window">
@@ -26,6 +26,7 @@
 </div>
 <details id="changes-panel" hidden><summary id="changes-heading">Workspace changes</summary><ul id="changes"></ul></details>
 </section>
+<div id="panel-divider" role="separator" tabindex="0" aria-orientation="vertical" aria-label="Resize workspace and chat" aria-controls="workspace-view viewer" aria-valuemin="25" aria-valuemax="70" aria-valuenow="36"><span aria-hidden="true"></span></div>
 <iframe id="viewer" src="/replay" title="Live agent chat and trace viewer"></iframe>
 </div>
 </main>
