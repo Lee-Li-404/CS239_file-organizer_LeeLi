@@ -104,6 +104,25 @@ regression suite separately. All use synthetic temporary files or mocked model
 clients; they make no model API requests. tests/README.md describes cases and
 distinguishes checks of intentional policy non-enforcement from compliance tests.
 
+## Live demo and saved trace browser
+
+```sh
+python -m file_organizer.live_demo --port 8879
+```
+
+Open http://127.0.0.1:8879/. Enter an instruction as Alice and choose a synthetic
+workspace preset. Live chats and abbreviated tool calls update during execution.
+The Finder-style workspace has Alice/Shared navigation, expandable folders,
+selectable file rows, and file-change markers. Bob's private contents stay hidden.
+Respond to requested confirmation and password authorization in the page. The
+synthetic password is `correct`. Each run makes real model API calls and starts
+from a fresh fixture. Policies remain prompt-only.
+
+The Past traces tab lists the five published scenarios and locally saved demo
+sessions. Saved replay makes no API calls. Local runs persist under `.live-demo/`
+and are excluded from publication. The older standalone replay viewer remains
+available but is not needed to view saved traces in this app.
+
 ## Explicitly permitted deletion
 
 The current policy has P1–P11. The original P10 was removed earlier; the new P10

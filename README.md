@@ -70,6 +70,28 @@ is the installed entry point.
 
 ## Inspect agent communication
 
+For an interactive live demo as Alice, with a fresh synthetic workspace per run:
+
+```sh
+python -m file_organizer.live_demo --port 8879
+```
+
+Open http://127.0.0.1:8879/. Choose a preset, enter an instruction, and select
+execution or preview mode. Agent chats and abbreviated tool calls update live.
+When agents request confirmation or password authorization, respond in the page.
+The synthetic demo password is `correct`; an incorrect password tests denial.
+Runs make real model API calls and save traces under the ignored `.live-demo/`
+directory. Policies remain prompt-only. Each new run resets to a fresh preset.
+
+The same page includes a **Past traces** tab with the five scenarios published to
+GitHub and saved local live sessions. A workspace view shows Alice's and shared
+folders, refreshes every second during live runs, and marks changes from the
+starting snapshot. Bob's private contents stay hidden. Saved scenarios show
+their before/after workspace changes. Use this page for both live demos and
+saved replay; the separate viewer below remains optional.
+
+For saved traces:
+
 ```sh
 python -m downloads_organizer view --run traces/phase1/01-normal --port 8878
 ```

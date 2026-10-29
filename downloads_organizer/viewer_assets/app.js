@@ -433,6 +433,6 @@ document.addEventListener('drop',async e=>{e.preventDefault();dragDepth=0;$('dro
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeInspector();});
 (async function init(){
   renderRunOptions();render();
-  try{const data=await(await fetch('api/bootstrap',{cache:'no-store'})).json();if(data.bundles?.length)addRuns(data.bundles);else await loadDemo();}
+  try{const data=await(await fetch('api/bootstrap',{cache:'no-store'})).json();if(data.bundles?.length)addRuns(data.bundles);else if(data.live)notice('Start a live run above to see agent messages here.');else await loadDemo();}
   catch(_){notice('Open this viewer through python -m downloads_organizer view, or import local trace files. No model calls are needed.');}
 })();

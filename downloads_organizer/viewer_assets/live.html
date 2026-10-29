@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>File Organizer · Live demo</title><link rel="stylesheet" href="/live.css"><script defer src="/live.js"></script></head>
+<body>
+<header><div><h1>File organizer <span>Agent studio</span></h1><p>Run a live demo or explore the saved traces published to GitHub.</p></div><span id="status" role="status">Ready</span></header>
+<main>
+<nav class="source-tabs" aria-label="Trace source"><button id="live-tab" type="button" aria-pressed="true">Live demo</button><button id="history-tab" type="button" aria-pressed="false">Past traces</button></nav>
+<section id="history-controls" hidden><label>Saved trace<select id="history-select"></select></label><p>Saved replay makes no API calls. Published traces and your local demo sessions are listed separately.</p></section>
+<form id="run-form">
+<div class="settings"><label>Workspace preset<select id="preset"></select></label><label>Mode<select id="mode"><option value="apply">Execute with confirmation</option><option value="preview">Preview only</option></select></label></div>
+<label for="instruction">Ask as Alice</label><div class="prompt"><textarea id="instruction" rows="2" required>Organize my files into Papers, Courses, Receipts, and Other. Leave sensitive files in place and flag them.</textarea><button id="start" type="submit">Run live</button></div>
+<div class="examples"><button type="button" data-example="share">Share a file</button><button type="button" data-example="private">Try Bob’s workspace</button></div>
+</form>
+<section id="pending" hidden><h2 id="pending-title"></h2><pre id="pending-detail"></pre><form id="answer-form"><label id="password-label" hidden>Demo password<input id="password" type="password" autocomplete="off"><small>Synthetic demo password: correct. An incorrect value tests denial.</small></label><div class="actions"><button id="accept" type="submit">Confirm plan</button><button id="decline" type="button">Decline</button></div></form></section>
+<p id="error" role="alert" hidden></p>
+<p id="saved" class="saved"></p>
+<div class="observatory">
+<section id="workspace-view" aria-label="Workspace visualization">
+<div class="workspace-heading"><h2>Workspace</h2><span id="workspace-state">Preset preview</span></div>
+<div class="finder-window">
+<div class="finder-toolbar"><div class="traffic-lights" aria-hidden="true"><span></span><span></span><span></span></div><div class="finder-window-title"><span class="finder-icon folder-icon" aria-hidden="true"></span><strong id="finder-title">Alice</strong></div><span class="finder-view-mode" aria-label="List view">☷</span></div>
+<div class="finder-body">
+<nav class="finder-sidebar" aria-label="Workspace folders"><span class="finder-section-label">Favorites</span><button type="button" data-scope="alice" aria-pressed="true"><span class="sidebar-symbol" aria-hidden="true">⌂</span> Alice</button><button type="button" data-scope="shared" aria-pressed="false"><span class="sidebar-symbol" aria-hidden="true">♧</span> Shared</button><span class="finder-section-label private-label">Private</span><button type="button" data-scope="bob" aria-pressed="false"><span class="sidebar-symbol" aria-hidden="true">♙</span> Bob <span class="sidebar-lock" aria-hidden="true">⌑</span></button></nav>
+<div class="finder-content"><div class="finder-column-headings" aria-hidden="true"><span>Name</span><span>Size</span><span>Kind</span></div><div class="finder-files"><div id="alice-tree"></div><div id="shared-tree" hidden></div><div id="bob-locked" hidden><span class="locked-symbol" aria-hidden="true">🔒</span><strong>Bob’s private workspace</strong><p>Contents hidden from Alice</p></div></div></div>
+</div>
+<div class="finder-pathbar" id="finder-path">workspace › users › alice</div><div class="finder-statusbar"><span id="finder-count">0 items</span><span class="finder-observation">● Observed workspace</span></div>
+</div>
+<details id="changes-panel" hidden><summary id="changes-heading">Workspace changes</summary><ul id="changes"></ul></details>
+</section>
+<iframe id="viewer" src="/replay" title="Live agent chat and trace viewer"></iframe>
+</div>
+</main>
+</body></html>

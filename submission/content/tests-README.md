@@ -18,6 +18,7 @@ separately to avoid mixing selected-app and older-baseline assumptions.
 | file_organizer/test_policy_only.py | All roles receive identical capabilities and the actual policy; inventory and Arbiter messages remain unfiltered; model judgments are not overridden; confirmation is explicit; disposable commands and raw uploads can bypass business policies; outside/symlink paths are not policy-gated. These are deliberate non-enforcement tests. |
 | file_organizer/test_delete_plans.py | Deletion plans need no destination, pending/completed observations follow source absence, and legacy moves still require a destination. No policy gates are installed. |
 | file_organizer/test_authorization.py | Correct demo credentials issue operation-bound tokens; wrong/empty credentials fail once; token membership is checked; raw passwords are absent from service trace records; preview does not mechanically block a requested credential service. |
+| file_organizer/test_live_demo.py | Fresh synthetic workspaces and complete traces, pending browser confirmation, stale-response rejection, credential-response isolation, workspace move/change observations without Bob metadata or file contents, saved-session discovery across restart, preset previews, and no fabricated move pairing for duplicate hashes. No provider calls. |
 | test_tool_protocol.py | Native and JSON-envelope calls, malformed or duplicate IDs, argument validation, compatibility repairs, refusal handling, and no accidental execution of file/prose content. |
 | test_models.py | Provider/key configuration, tool-call protocol, pacing for non-OpenAI providers, OpenAI absence of local pacing, and mocked SDK retry behavior. No network is used. |
 | test_anonymizer.py | Supported text/PDF extraction, bounded excerpts, consistent replacement of credentials and names, and base-helper artifact validation. Base-helper boundary tests concern the legacy implementation; the selected app overrides its scope check. |
@@ -27,6 +28,6 @@ separately to avoid mixing selected-app and older-baseline assumptions.
 
 The included real demo is assessed manually in the requirements archive's
 episodes/02-observed-demo.md. It demonstrates failures rather than serving as a
-passing integration test. A fresh successful five-agent live run remains a useful
-follow-up evaluation, but the guideline permits hypothetical episodes and does
-not require a complete raw execution log.
+passing integration test. The five primary trace folders include full recorded
+episodes and separate assessments of successful actions, refusals, and observed
+policy failures. Additional repeated evaluation remains useful.
