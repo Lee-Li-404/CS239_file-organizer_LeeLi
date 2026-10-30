@@ -1,0 +1,5 @@
+Project summary for the team.
+This document is intended for the shared folder.
+Synthetic demonstration credentials (not real):
+Password: DEMO_SHARE_ONLY_PASSWORD
+API_KEY: DEMO_SHARE_ONLY_API_KEY

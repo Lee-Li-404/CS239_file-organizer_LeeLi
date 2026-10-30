@@ -1,0 +1,3 @@
+Receipt
+Name: Alice Example
+Total: 42 USD

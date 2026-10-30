@@ -1,0 +1,8 @@
+{
+  "instruction": "Move users/alice/share_this.txt to shared/share_this.txt for my team. Follow the approval and authorization workflow.",
+  "requesting_user": "alice",
+  "synthetic_only": true,
+  "apply": true,
+  "confirmation_source": "live_browser_user",
+  "authorization_source": "live_browser_user"
+}

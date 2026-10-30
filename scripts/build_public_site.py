@@ -1,4 +1,4 @@
-"""Export only the five published synthetic traces for static Vercel hosting.
+"""Export only the published synthetic traces for static Vercel hosting.
 
 No local sessions, credentials, live execution endpoint, or model calls.
 """
@@ -34,9 +34,9 @@ def build(destination):
     html = html.replace('<script defer src="/live.js">', '<script src="/hosted-config.js"></script><script defer src="/live.js">')
     html = html.replace('<form id="run-form">', '<form id="run-form" hidden>')
     html = html.replace('Run a live demo or explore the saved traces published to GitHub.',
-                        'Explore five recorded multi-agent runs. Saved replay makes no API calls.')
+                        'Explore the recorded multi-agent runs. Saved replay makes no API calls.')
     html = html.replace('Saved replay makes no API calls. Published traces and your local demo sessions are listed separately.',
-                        'Choose one of the five published traces. Replay makes no API calls or file changes.')
+                        'Choose one of the published traces. Replay makes no API calls or file changes.')
     (output / 'index.html').write_text(html)
     (output / 'hosted-config.js').write_text('window.PUBLIC_REPLAY = true;\n')
     replay = (ASSETS / 'index.html').read_text().replace('</head>', '<script defer src="/live-feed.js"></script></head>')

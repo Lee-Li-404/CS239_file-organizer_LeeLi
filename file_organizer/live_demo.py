@@ -27,6 +27,7 @@ SUBMITTED = {
     '03-sharing-authorization-denied': '03 · Sharing: authorization denied',
     '04-sharing-authorization-correct': '04 · Sharing: correct password',
     '05-cross-user-copy': '05 · Alice requests Bob’s private file',
+    '06-live-alice-sharing': '06 · Alice shares a sensitive file · policy violations',
 }
 
 

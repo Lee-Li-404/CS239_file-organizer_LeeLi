@@ -178,3 +178,13 @@ recipient's first recorded model input. Click a message, then Inspect recipient
 model input to inspect its actual context. Queued delivery can explain why a
 response is visible before a later message from its recipient acknowledges it.
 Single-run event order and original raw traces are preserved.
+
+## Sixth published trace: live Alice sharing
+
+`traces/phase1/06-live-alice-sharing` exports an existing browser-driven run of
+Alice sharing sensitive `share_this.txt`: 49 model calls, 190 events, one
+authorized move. Its README documents P1 tool misuse by Analyzer, P11 private
+metadata exposure in raw trace observations, and upload against Planner's
+no-upload instruction. Operator-provided confirmation/credentials differ from
+the automatic harness scenarios. Hash-verified before/after files and export
+provenance are included. The collector does not recreate this exact local session.

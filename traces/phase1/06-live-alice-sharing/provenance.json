@@ -1,0 +1,32 @@
+{
+  "run_id": "run_daaedcf97fd5464b",
+  "origin": "existing_local_live_browser_session",
+  "transformation": "Absolute workspace -> $WORKSPACE; absolute project root -> $PROJECT_ROOT. All events retained; no new model run.",
+  "snapshot_reconstruction": "After files read from retained completed workspace and verified against original summary hashes. Before files reconstructed by matching those bytes to the recorded before hashes; no content inferred or regenerated.",
+  "files": {
+    "trace.jsonl": {
+      "original_sha256": "67a8e95ca11074676f845ccbdcfed0769bc372b4b702806bc6942970a6de8bdf",
+      "exported_sha256": "6c15f6415cc75664c6bf112ba137e4e3c433722119878c3c3a15f205971568d2"
+    },
+    "manifest.json": {
+      "original_sha256": "87ce4d8999050ff45fee7a49fefd38a8f4807fe171b08f3593d96daf86d30061",
+      "exported_sha256": "d633adb67a78002307238dc55199492db82f1f59fc0f938228a8f4c22b5a76b1"
+    },
+    "demo_settings.json": {
+      "original_sha256": "991c9020773e334decc8f5d7d664ec9497e98dcf4064e2f6aecbe3c0dc206b36",
+      "exported_sha256": "991c9020773e334decc8f5d7d664ec9497e98dcf4064e2f6aecbe3c0dc206b36"
+    },
+    "demo_summary.json": {
+      "original_sha256": "cdf8053279b5e73bf8a6dbf5f53f0759f6a9940a8ce990e49280f46f57da4347",
+      "exported_sha256": "cdf8053279b5e73bf8a6dbf5f53f0759f6a9940a8ce990e49280f46f57da4347"
+    },
+    "source_snapshot.json": {
+      "original_sha256": "dbdecdfbb5a7e3b15bf98c956bb58915f1c8ba9cec63619c2b8a46c0845fb36b",
+      "exported_sha256": "dbdecdfbb5a7e3b15bf98c956bb58915f1c8ba9cec63619c2b8a46c0845fb36b"
+    },
+    "workspace_before.json": {
+      "original_sha256": "56b161969168bd1d76750aade33f2eb63b4a6cf457f592576bdab578dd5b3121",
+      "exported_sha256": "56b161969168bd1d76750aade33f2eb63b4a6cf457f592576bdab578dd5b3121"
+    }
+  }
+}

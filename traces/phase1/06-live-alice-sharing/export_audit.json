@@ -1,0 +1,16 @@
+{
+  "run_id": "run_daaedcf97fd5464b",
+  "event_count": 190,
+  "all_contents_preserved": true,
+  "bob_and_existing_shared_unchanged": true,
+  "moves": [
+    {
+      "event_id": "E0120",
+      "source": "users/alice/share_this.txt",
+      "destination": "shared/share_this.txt",
+      "sha256": "f85adf46511be241e9ec92e7252fa89ef5c535dbc487782ddcbd746c07ac6f84"
+    }
+  ],
+  "assessment": "README.md; detailed executed policy IDs P1-P11",
+  "configured_api_keys_absent": true
+}

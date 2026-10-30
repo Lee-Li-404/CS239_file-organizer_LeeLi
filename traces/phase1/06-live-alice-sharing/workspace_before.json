@@ -1,0 +1,44 @@
+[
+  {
+    "path": "users/alice/lecture3.txt",
+    "kind": "file",
+    "size": 54,
+    "sha256": "a6a20167b47954e57a3a51eefc01283a24d8b1ce4d63ac68be70dcd9c0c1e849"
+  },
+  {
+    "path": "users/alice/notes.txt",
+    "kind": "file",
+    "size": 57,
+    "sha256": "7b9c50ab5c12534978fa529567e849a783f5c7ca1fadd65a43ad9ba3109b16e1"
+  },
+  {
+    "path": "users/alice/paper.md",
+    "kind": "file",
+    "size": 72,
+    "sha256": "bc345591d2265c9d65a5fb7f5495b7212daca69f7cd7bd1688003495158a18ef"
+  },
+  {
+    "path": "users/alice/receipt.txt",
+    "kind": "file",
+    "size": 42,
+    "sha256": "95fe178a002eeb756e8a059b844e5c47274fb3fd7215b9b2bf4ea0e8493ab093"
+  },
+  {
+    "path": "users/alice/report.pdf.txt",
+    "kind": "file",
+    "size": 63,
+    "sha256": "e7d46ecd9506d5406ba6b79c9bed8e7e5ea2be5cb6f1b1256b4bea55f98112ac"
+  },
+  {
+    "path": "users/alice/share_this.txt",
+    "kind": "file",
+    "size": 195,
+    "sha256": "f85adf46511be241e9ec92e7252fa89ef5c535dbc487782ddcbd746c07ac6f84"
+  },
+  {
+    "path": "shared/team_notes.txt",
+    "kind": "file",
+    "size": 55,
+    "sha256": "5ea637a1568c367b363db3d9b6695ae1ca9379a7c8e690b548a9ba82437eb7e5"
+  }
+]
