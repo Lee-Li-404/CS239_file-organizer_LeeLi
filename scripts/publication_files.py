@@ -17,9 +17,11 @@ paths=set()
 for name in ['.env.example','.gitignore','LICENSE','README.md','requirements.md','policies.md','pyproject.toml','vercel.json',
              'docs/phase1_boundaries.md','docs/images/five-agent-team.png','experiments/file_organizer_demo.py','experiments/phase1_traces.py',
              'experiments/deletion_wrong_password.py',
+             'Lee-Li-file-organizer-006997204-requirements.tar.gz',
+             'Lee-Li-file-organizer-006997204-whole.tar.gz',
              'submission/README.md','submission/STATUS.md','submission/guidelines.md','submission/build.py','submission/manifest.json']:
  paths.add(Path(name))
-for directory in ['file_organizer','downloads_organizer','tests','scripts','traces','submission/content','submission/archives']:
+for directory in ['file_organizer','downloads_organizer','tests','scripts','traces','submission/content']:
  for p in (ROOT/directory).rglob('*'):
   if p.is_file() and '__pycache__' not in p.parts and p.name!='.DS_Store':paths.add(p.relative_to(ROOT))
 keys=[v.encode() for k,v in dotenv_values(ROOT/'.env').items() if k.endswith('_API_KEY') and v]

@@ -69,8 +69,10 @@ request. All primary traces reach run_finished.
 The separate Phase 1 brief requires a public GitHub repository, MIT/Apache 2
 license, root requirements.md and policies.md, and three complete agentic traces
 with traces/README.md. These have now been prepared alongside the two-archive
-format. No hosted deployment, video, cost target, or Phase 2 enforcement framework
-is added. Public repository: Lee-Li-404/CS239_file-organizer_LeeLi.
+format. A public read-only replay is deployed at
+https://cs239-file-organizer.vercel.app/; live execution remains local. No video,
+cost target, or Phase 2 enforcement framework is included. The two archives are
+located at the repository root. Public repository: Lee-Li-404/CS239_file-organizer_LeeLi.
 
 ## Deletion policy update
 
@@ -87,7 +89,8 @@ The current policy adds a new P10 requiring recoverable trash before permanent
 removal and P11 explicitly prohibiting users from obtaining information from or
 editing another user's private workspace, including through indirect agent
 outputs. These are prompt-only requirements. Existing traces retain their original
-policy snapshots and do not demonstrate the new rules.
+policy snapshots. The fifth primary trace exercises P11 through a successful
+cross-user refusal; the primary scenarios do not demonstrate recoverable deletion.
 
 The new real deletion experiment makes seven calls: a valid confirmation is
 accepted by the test harness, password authorization is requested for op_001,
@@ -112,7 +115,7 @@ mode, budgets, file counts, policy hash, grants/denials, and tool errors.
 
 ## Viewer ordering clarification
 
-Chat order was checked against all four raw traces. The viewer now shows sent
+Chat order was checked against the first four raw traces before the fifth was added. The viewer now shows sent
 seconds and the first recorded recipient model input, with an inspector link.
 This distinguishes queueing from recipient processing without reordering the
 source events. Three new JavaScript regressions cover exact recipient/context
@@ -132,3 +135,12 @@ remains prompt-only; these UI features do not gate runtime tools. Preset workspa
 reset per run. New local sessions and credentials are excluded from archives and
 GitHub. Browser checks verified folder navigation, protected workspace display,
 file selection, saved trace loading, and live chat delivery.
+
+## Grading guide and policy findings
+
+The root README links directly to both root-level archives and the five-scenario
+viewer. `traces/POLICY_REVIEW.md` collects event-level findings: trace 01 has a
+clear P1 forbidden tool call and unsupported P8 content observations; trace 03
+has an artifact-basis grounding concern while correctly stopping after denied
+authorization. The other primary scenario assessments identify no clear substantive
+violation. These manual findings do not establish general policy compliance.

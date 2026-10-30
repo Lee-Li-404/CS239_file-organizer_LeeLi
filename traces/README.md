@@ -1,5 +1,12 @@
 # Phase 1 agent traces
 
+**[Replay all five scenarios online](https://cs239-file-organizer.vercel.app/)** ·
+**[Read the event-level policy findings](POLICY_REVIEW.md)**
+
+The review distinguishes actual forbidden tool calls, unsupported evidence claims,
+and successful prerequisite checks. Detailed policy IDs refer to each run's executed
+snapshot, not the six overview labels in the root README.
+
 The five scenarios in [phase1/](phase1/) are **real hosted-model episodes** from
 the submitted five-agent, policy-only runtime, using `gpt-5.6-luna` and disposable
 synthetic files. Each complete JSONL starts with run_started, records the initial
@@ -54,7 +61,7 @@ what was executed even if documentation or packaging changes later.
 From the repository root after installing dependencies:
 
 ```sh
-python -m downloads_organizer view --run traces/phase1/01-normal --run traces/phase1/02-injection-preview --run traces/phase1/03-sharing-authorization-denied --run traces/phase1/04-sharing-authorization-correct --port 8878
+python -m downloads_organizer view --run traces/phase1/01-normal --run traces/phase1/02-injection-preview --run traces/phase1/03-sharing-authorization-denied --run traces/phase1/04-sharing-authorization-correct --run traces/phase1/05-cross-user-copy --port 8878
 ```
 
 Open http://127.0.0.1:8878/. Choose Group chat or an agent, inspect compact tool
@@ -76,7 +83,7 @@ No private Downloads data or private-run reports are published.
 partial real five-agent run: five moves, then its 80-call budget ended. Its episode
 records P3 filename disclosure, sensitivity/evidence handoff failures, incorrect
 authorization, and missing agent verification. It includes its executed source
-snapshot and is not counted as one of the four primary scenarios above. The viewer's
+snapshot and is not counted as one of the five primary scenarios above. The viewer's
 built-in demo is separately labeled scripted and is not a real-model trace.
 
 ## Deletion and incorrect-password experiments
@@ -98,7 +105,7 @@ case with `python experiments/deletion_wrong_password.py` (billable API calls).
 - [Original small normal run](historical/2026-10-29-normal-small/README.md): the previous two-Alice-file scenario, 57 calls. Replaced in the primary collection by the ten-file normal run; its raw events and original policy snapshot are preserved.
 - [First correct-password attempt](historical/2026-10-29-sharing-correct-budget/README.md): the file moved after authorization, but duplicate follow-ups exhausted 100 calls. The primary fourth trace is a fresh completed run, not an edited version of this attempt.
 
-The expanded normal and the completed fourth trace use current P1–P9. Older
+The expanded normal and the completed fourth trace use their recorded P1–P9. Older
 snapshots retain P10 and the policy wording actually used at execution time.
 No old prompt snapshot or raw event stream has been rewritten to match new policy.
 

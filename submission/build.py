@@ -165,8 +165,8 @@ for suite in (root / 'tests/file_organizer', root / 'tests'):
                 raise ValueError('Private configuration in staging.')
             if any(key in path.read_bytes() for key in keys):
                 raise ValueError(f'Configured API key found in {path.relative_to(OUT)}')
-    archives = OUT / 'archives'
-    archives.mkdir(exist_ok=True)
+    # Keep the two hand-in downloads visible at the repository root.
+    archives = ROOT
     names = []
     for label, stage in (('requirements', requirements), ('whole', whole)):
         name = f"{IDENTITY['filename_name']}-{APP}-{IDENTITY['uid']}-{label}.tar.gz"
